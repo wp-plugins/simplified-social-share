@@ -8,7 +8,7 @@ Tested up to: 3.5.1
 Stable tag: 1.0
 License: GPLv2 or later
 
-Let your users share via their accounts on popular social networks such as Facebook, Google, Twitter, LinkedIn, Vkontakte and over 20 more!
+Let your users share via their accounts on popular social networks such as Facebook, Google, Twitter, LinkedIn, Vkontakte and over 80 more!
 
 == Description ==
 Just install this FREE plugin to enable Social Sharing on your WordPress site. This plugin is also compatible with WordPress multisite.
@@ -39,11 +39,8 @@ This plugin runs on <a href="http://www.loginradius.com" target="_blank">LoginRa
 * Manage everything from your WP admin
 * No programming skills required
 * Its simple, secure and reliable
-* REST API access and HTTPS support
-* Validate API key
 * Highly reliable as it runs on Cloud Computing with failover server support
 * 24/7 community support, rich knowledge base, and active discussion forum
-* Available in 9 languages - English, French, Spanish, Russian, Italian, Chinese, Japanese, Portuguese and German (Italian Language Translator: Michelangelo Giannino; Russian Language Translator: Rob; Spanish Language Translator: Daniel Iturbe; Chinese & Japanese Language Translator: Wenxuan; German language translatior: David Werth)
  
 = VIP Features (Paid) =
 * Get 24/7 email support
@@ -51,7 +48,7 @@ This plugin runs on <a href="http://www.loginradius.com" target="_blank">LoginRa
 
 Learn more about our VIP packages <a href="https://www.loginradius.com/pricing/loginradius-pricing-plans" target="_blank">here</a>.
 
-= Other Social Login plugins =
+= Other Social plugins =
 We also have similar social plugins for Joomla, Drupal, Magento, PrestaShop, Vanilla Forum, osCommerce, Zen Cart, X-cart, vBulletin, BlogEngine and DotNetNuke! <a href="https://www.loginradius.com/loginradius-cms-social-plugins" target="_blank">Learn more</a>.
 
 = Important links =
@@ -123,63 +120,6 @@ LoginRadius is a Canadian Startup that offers Social Infrastructure to websites 
 2. **Social Sharing Horizontal Theme**: Choose social sharing horizontal themes
 3. **Social Sharing Vertical Theme**: Choose social sharing vertical themes
 
-== Testimonials ==
-<em>Germany Installation and adjustment only took 30 minutes. LoginRadius is exactly what I was looking for in order to provide a comfortable access to our services.</em>
-<strong>Dustin Feld</strong><br>
-<em>CoachCompare</em><br>
-
-<em>LoginRadius the future of internet,the alternative to the custom login system. As the banking system is changing its ways of transaction from cheque to the Atm, in the same way websites are changing their login system from custom to LoginRadius.</em><br>
-<strong>Abdullah khan</strong><br>
-
-<em>"LoginRadius is by far the best one-click login solution for websites. You have a fast and friendly support team at your disposal 24/7."</em><br>
-<strong>Sinisa Juresic</strong><br>
-<em>Founder</em><br>
-<em>StreetsCrack</em><br>
-
-<em>Works like a charm - Thanks you so much!</em><br>
-<strong>John McKeever</strong><br>
-<em>Data Migrators</em><br>
-
-<em>Good doc. I like it when _everything_ is on _one_ page. Also I like that your info is very concise. Keep it small and straight so we can do our job instead of reading and reading and reading like I have to do in other web services! Good theming/design. The first social id provider knowing taste is important. Keep it up Apple! :) Good job! </em><br>
-<strong>Johnny Luu</strong><br>
-
-<em>"After spending 3 days searching for tutorials I wasnt able to find any help to connect my website with other social website such as facebook, twitter etc. but LoginRadius was my saviour after 20 min I had facebook, twitter and google connect with my wordpress. The best part is when that when I asked a question, 5 min later I received answer. So I can say that the "27/7 support" is true! If there are other people who need help to connect they sites with facebook or twitter or any other social website, give it a try. Im sure LoginRadius is the thing your searching for."</em><br>
-<strong>Kristian Tonev</strong><br>
-
-<em>"I want to say thanks to you guys for doing this, making it free and for helping me in many ways.In my businesses I want things to work simply, correctly and fast. For this, I didn't rtfm enough and thought I'd delete my account. The info about what will happen next was right in front of me, but I pressed delete anyway. On re-joining, I found I'd not entirely understood the impact.. the only domain I want - I cannot get.Frustrated, I sent a support request in 2 clicks, which was honestly answered in 2 minutes, telling me the steps they took and what steps I need to take.These guys knew exactly what I'd done and what was happening, they had total situational awareness of my issue. My issue was fixed immediately, and I like that. Well done guys."</em><br>
-<strong>Dr Gregory Uppington</strong><br>
-<em>Managing Director</em><br>
-<em>YouSoGetMe</em><br>
-
-<em>"Really impressed with the service and the customer service, really quick turn around on responses and is a perfect system for my website as customers can now register on my website using their social login details, saves a lot of time - well done guys - keep up the good work."</em><br>
-<strong> Ian Haney</strong><br>
-<em>Irh Media</em><br>
-
-<em>"We are very Happy with loginradius, it made the registration process on the web site hassle free,especially for novice users,Have a website ?you should have loginradius!"</em><br>
-<strong>Ahmad Shaarawy</strong><br>
-<em>Ass. Researcher</em><br>
-<em>Research Institute of Ophthalmology</em><br>
-
-<em>"Have you ever thought possible to achieve registration-free access for the visitors to your pages, but with the privileges of a member? The system designed by the people at LoginRadius is unbeatable, it will save to your customers and visitors a precious time, time surely they can invest more profitably for them and for you, checking your company catalog or browsing your site. And they will be surely very grateful for having you avoided them to fill out yet another form into their lives! Our warm and sincere congratulations for the impressive work and achievement, and our deepest gratitude for the tech support from LoginRadius, which helped us to implement their system on our site, providing us with accurate clues all the time to do it right!"</em><br>
-<strong>Diego A. De Giorgio</strong><br>
-<em>GeekTronix</em><br>
-
-<em>"I am a person who has a large collection of passwords and logins and constantly have to be checking my password program to access sites. If only I could use just a few that would work for a whole list of sites and forums I visit it would make things a lot easier. With browsers now allowing users to save password and sync between pcs has helped. And I'm now seeing more and more social sites letting users use logins for other sites like facebook and others. I know there are countless others that feel the same way I do.With an ap like what you provide at LoginRadius, I think you have taken it a step further by allowing users to have more choices. A use can decide which of their login is more appropriate, twitter, facebooks or any other. They can get away from the long drawn out process of a sign up page where ever your app is hosted. As a site owner I think making your site user friendly and easy to access with high security is a plus. I also think signup pages on some site could get a bit intrusive and I'm sure that I'm not the only person that thinks this way. Why should it be mandatory for a person to state if they are a male or female just to buy a product from your site or become a member? Signup pages are a big turn off for a lot of would be customers.Your ap is a welcome piece of software as I have been seriously considering making drastic changes to my signup page to make it more appealing. And I think I might still make the changes any way."</em><br>
-<strong>Rudy Rawlins</strong><br>
-<em>Caribprints</em><br>
-
-<em>"El modulo trabaja grandioso, aunque tuve algunos problemas porque al ingresar una cuenta el usuario permaneci'a conectado permanentemente sin poder cerrar sesio'n, contacte al servicio de soporte de loginradius y ra'pidamente se comunicaron conmigo da'ndome un par de soluciones, y no dejaron de comunicarse conmigo hasta que el problema fue resuelto, estoy muy satisfecho con el servicio y con el modulo."</em><br>
-<strong>Juan Luis Gomez'</strong><br>
-<em>Webmaster</em><br>
-<em>Delachona</em><br>
-
-Please view more here: https://www.loginradius.com/loginradius/testimonial
-
-<strong>Please share your comments and feedback at feedback@loginradius.com</strong>
-
 == Changelog ==
 = 1.0 =
-* Initial release.
-
-= 1.0 =
-* Initial release.
+* Initial release
