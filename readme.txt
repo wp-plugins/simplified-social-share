@@ -2,7 +2,7 @@
 Contributors: loginradius
 Donate link: http://www.loginradius.com/
 Tags: Social share, Wordpress plugin, BuddyPress, bbpress, social sharing, multisite, LoginRadius, share post,
-single sign-on, Social Login Plug-in, Twitter, Google, Yahoo OpenID, Linkedin login, differnet languages, social media tools, free social login, post to social networks, social authentication, social api, social app, facebook connect, google connect, capture social data, wordpress multisite, Social Sign-in, social plugins, SSO technology
+single share, Social share Plug-in, Twitter tweet, Google plus share, Yahoo share, OpenID, Linkedin share, social media tools, free social sharing, post to social networks, social authentication, social api, social app, facebook share, google share, wordpress multisite, social plugins
 Requires at least: 2.5.0
 Tested up to: 3.5.1
 Stable tag: 1.0
@@ -35,7 +35,7 @@ This plugin runs on <a href="http://www.loginradius.com" target="_blank">LoginRa
 * Enable Social Sharing widget on your WordPress site
 * Options to add social sharing widget on homepage, posts, feeds, content pages, etc.
 * Users can share contents on over 90 social networks, can send contents in an email or can print!
-* A nice and clean user friendly WP admin U/I with tab structure with various options for social login, sharing and commenting
+* A nice and clean user friendly WP admin U/I with tab structure with various options for social sharing
 * Manage everything from your WP admin
 * No programming skills required
 * Its simple, secure and reliable
@@ -113,7 +113,7 @@ We offer 24/7 support, feel free to browse our knowledge base <a href="http://su
 LoginRadius WordPress plugin is available in 9 different languages - English, French, Spanish, Italian, Russian, Chinese, Japanese, German and Portuguese Brazillian. So you can pick your own language. Please let us know at feedback@loginradius.com if you would like us to add any other language. 
 
 = What is LoginRadius? =
-LoginRadius is a Canadian Startup that offers Social Infrastructure to websites through its Software as a Service (SaaS). We are Canada's Top 50 Startups and our service is being used by over 40,000 customers around the world. We are also partner with internet giants such as Mozilla, Microsoft, DynDNS, etc.
+LoginRadius is a Canadian Startup that offers Social Infrastructure to websites through its Software as a Service (SaaS). We are Canada's Top 50 Startups and our service is being used by over 65,000 customers around the world. We are also partnered with internet giants such as Amazon, Mozilla, Microsoft, DynDNS, etc.
 
 == Screenshots ==
 1. **Social Sharing**: This is an example presentation social sharing. There are multiple themes available.
