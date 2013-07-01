@@ -130,16 +130,12 @@ function login_radius_sharing_option_page(){
 		<?php settings_fields('LoginRadius_sharing_setting_options'); ?>
 		<div class="header_div">
 		<h2>LoginRadius <?php _e('Simplified Social Sharing Settings', 'LoginRadius') ?></h2>
-		<div id="loginRadiusError" style="background-color: #FFFFE0; border:1px solid #E6DB55; padding:5px; margin-bottom:5px; width: 1050px;">
-			 <?php _e('Please clear your browser cache, if you have trouble loading the plugin interface. For more information', 'LoginRadius') ?> <a target="_blank" href="http://www.wikihow.com/Clear-Your-Browser's-Cache" >  <?php _e('click here', 'LoginRadius') ?> </a>.
-		</div>
 		<fieldset style="margin-right:13px; height:170px; background-color:#EAF7FF; border-color:rgb(195, 239, 250); padding-bottom:10px; width:751px">
 		<h4 style="color:#000"><strong><?php _e('Thank you for installing the Simplified Social Sharing!', 'LoginRadius') ?></strong></h4>
 		<a style="text-decoration:none;" href="http://www.loginradius.com/?utm_source=wpplugin&utm_medium=install&utm_campaign=wpsharing" target="_blank">
-			<input style="padding: 0px 20px; height: 31px; margin-bottom:10px" class="button" type="button" value="<?php _e('Get advance features - Sign up for FREE', 'LoginRadius'); ?>" />
-		</a><br />
+			<input id="login_radius_advanced_features_btn" class="greenbutton green" type="button" value="<?php _e('Get advance features - Sign up for FREE', 'LoginRadius'); ?>" />
+		</a><br /><br />
 
-		<a class="loginRadiusHow" target="_blank" href="http://support.loginradius.com/customer/portal/articles/593954">(<?php _e('How to set up an account', 'LoginRadius') ?>?)</a>
 		<p>
 		<?php _e('We also offer Social Plugins for ', 'LoginRadius') ?><a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#joomlaextension" target="_blank">Joomla</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#drupalmodule" target="_blank">Drupal</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#vBulletinplugin" target="_blank">vBulletin</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#vanillaaddons" target="_blank">VanillaForum</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#magentoextension" target="_blank">Magento</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#osCommerceaddons" target="_blank">OSCommerce</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#prestashopmodule" target="_blank">PrestaShop</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#xcartextension" target="_blank">X-Cart</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#zencartplugin" target="_blank">Zen-Cart</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#dotnetnukemodule" target="_blank">DotNetNuke</a> <?php _e('and', 'LoginRadius') ?> <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#blogengineextension" target="_blank">BlogEngine</a>!
 		</p>
@@ -516,6 +512,7 @@ function login_radius_sharing_option_page(){
 						}
 					?>
 					</table>
+
 					</div>
 					</div>
 				</div>
