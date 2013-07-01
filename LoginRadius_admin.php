@@ -135,14 +135,14 @@ function login_radius_sharing_option_page(){
 		</div>
 		<fieldset style="margin-right:13px; height:170px; background-color:#EAF7FF; border-color:rgb(195, 239, 250); padding-bottom:10px; width:751px">
 		<h4 style="color:#000"><strong><?php _e('Thank you for installing the Simplified Social Sharing!', 'LoginRadius') ?></strong></h4>
-		<p>
-		<?php _e('We also offer Social Plugins for ', 'LoginRadius') ?><a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#joomlaextension" target="_blank">Joomla</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#drupalmodule" target="_blank">Drupal</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#vBulletinplugin" target="_blank">vBulletin</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#vanillaaddons" target="_blank">VanillaForum</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#magentoextension" target="_blank">Magento</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#osCommerceaddons" target="_blank">OSCommerce</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#prestashopmodule" target="_blank">PrestaShop</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#xcartextension" target="_blank">X-Cart</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#zencartplugin" target="_blank">Zen-Cart</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#dotnetnukemodule" target="_blank">DotNetNuke</a> <?php _e('and', 'LoginRadius') ?> <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#blogengineextension" target="_blank">BlogEngine</a>!
-		</p>
-		<a style="text-decoration:none;" href="https://www.loginradius.com/" target="_blank">
-			<input style="margin-top:10px" class="button" type="button" value="<?php _e('Set up my FREE account!', 'LoginRadius'); ?>" />
+		<a style="text-decoration:none;" href="http://www.loginradius.com/?utm_source=wpplugin&utm_medium=install&utm_campaign=wpsharing" target="_blank">
+			<input style="padding: 0px 20px; height: 31px; margin-bottom:10px" class="button" type="button" value="<?php _e('Get advance features - Sign up for FREE', 'LoginRadius'); ?>" />
 		</a><br />
 
 		<a class="loginRadiusHow" target="_blank" href="http://support.loginradius.com/customer/portal/articles/593954">(<?php _e('How to set up an account', 'LoginRadius') ?>?)</a>
+		<p>
+		<?php _e('We also offer Social Plugins for ', 'LoginRadius') ?><a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#joomlaextension" target="_blank">Joomla</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#drupalmodule" target="_blank">Drupal</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#vBulletinplugin" target="_blank">vBulletin</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#vanillaaddons" target="_blank">VanillaForum</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#magentoextension" target="_blank">Magento</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#osCommerceaddons" target="_blank">OSCommerce</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#prestashopmodule" target="_blank">PrestaShop</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#xcartextension" target="_blank">X-Cart</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#zencartplugin" target="_blank">Zen-Cart</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#dotnetnukemodule" target="_blank">DotNetNuke</a> <?php _e('and', 'LoginRadius') ?> <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#blogengineextension" target="_blank">BlogEngine</a>!
+		</p>
 		</fieldset>
 		
 		<fieldset style="width:25%; background-color: rgb(231, 255, 224); border: 1px solid rgb(191, 231, 176); padding-bottom:6px; height:173px; width:255px">
@@ -154,31 +154,6 @@ function login_radius_sharing_option_page(){
 							height: 61px; margin-right:10px" src="//www.facebook.com/plugins/like.php?app_id=194112853990900&amp;href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FLoginRadius%2F119745918110130&amp;send=false&amp;layout=box_count&amp;width=90&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=arial&amp;height=90" data-original-title="Like us on Facebook"></iframe>
 				</div>
 		</div>
-		</fieldset>
-		
-		<fieldset class="help_div" style="margin-right:13px; height:145px; width:751px">
-		<h4 style="border-bottom:#d7d7d7 1px solid;"><strong><?php _e('Help & Documentations', 'LoginRadius') ?></strong></h4>
-		<ul style="float:left; margin-right:43px">
-			<li><a target="_blank" href="http://support.loginradius.com/customer/portal/articles/1189987-wordpress-social-sharing-installation-configuration-and-troubleshooting"><?php _e('Plugin Installation, Configuration and Troubleshooting', 'LoginRadius') ?></a></li>
-			<li><a target="_blank" href="http://support.loginradius.com/customer/portal/articles/677100-how-to-get-loginradius-api-key-and-secret"><?php _e('How to get LoginRadius API Key', 'LoginRadius') ?></a></li>
-			<li><a target="_blank" href="http://community.loginradius.com/"><?php _e('Discussion Forum', 'LoginRadius') ?></a></li>
-		</ul>
-		<ul style="float:left; margin-right:43px">
-			<li><a target="_blank" href="http://www.loginradius.com/loginradius/about"><?php _e('About LoginRadius', 'LoginRadius') ?></a></li>
-			<li><a target="_blank" href="http://www.loginradius.com/product/sociallogin"><?php _e('LoginRadius Products', 'LoginRadius') ?></a></li>
-		</ul>
-		<ul style="float:left">
-			<li><a target="_blank" href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms"><?php _e('Social Plugins', 'LoginRadius') ?></a></li>
-			<li><a target="_blank" href="https://www.loginradius.com/loginradius-for-developers/loginRadius-sdks"><?php _e('Social SDKs', 'LoginRadius') ?></a></li>
-		</ul>
-		</fieldset>
-		
-		<fieldset style="margin-right:5px; background-color: rgb(231, 255, 224); border: 1px solid rgb(191, 231, 176); width:255px">
-		<h4 style="border-bottom:#d7d7d7 1px solid;"><strong><?php _e('Support Us', 'LoginRadius') ?></strong></h4>
-		<p>
-		<?php _e('If you liked our FREE open-source plugin, please send your feedback/testimonial to ', 'LoginRadius') ?><a href="mailto:feedback@loginradius.com">feedback@loginradius.com</a> !
-		<?php _e('Please help us to ', 'LoginRadius') ?><a target="_blank" href="http://docs.loginradius.com/wordpress.htm"><?php _e('translate', 'LoginRadius') ?> </a><?php _e('the plugin content in your language.', 'LoginRadius') ?>
-		</p>
 		</fieldset>
 		
 		</div>
