@@ -1,3 +1,9 @@
+// get trim() working in IE 
+if(typeof String.prototype.trim !== 'function') {
+      String.prototype.trim = function() {
+        return this.replace(/^\s+|\s+$/g, ''); 
+      }
+}
 var loginRadiusSharingHorizontalSharingTheme = document.getElementsByName('LoginRadius_sharing_settings[horizontalSharing_theme]');
 var loginRadiusSharingVerticalSharingTheme = document.getElementsByName('LoginRadius_sharing_settings[verticalSharing_theme]');
 var loginRadiusSharingHorizontalSharingProviders;
@@ -19,6 +25,23 @@ window.onload = function(){
 	loginRadiusSharingHorizontalSharingProviders = document.getElementsByName('LoginRadius_sharing_settings[horizontal_sharing_providers][]');
 	loginRadiusSharingVerticalSharingProviders = document.getElementsByName('LoginRadius_sharing_settings[vertical_sharing_providers][]');
 	loginRadiusAdminUI();
+}
+// toggle between login and registration form
+function loginRadiusToggleForm(val){
+	if(val == 'login'){
+		document.getElementById('lrsiteRow').style.display = 'none';
+		document.getElementById('loginRadiusToggleFormLink').innerHTML = 'Register';
+		document.getElementById('loginRadiusToggleFormLink').setAttribute('onclick', 'loginRadiusToggleForm("register")');
+		document.getElementById('loginRadiusSubmit').value = 'Login';
+		document.getElementById('loginRadiusFormTitle').innerHTML = 'Login to LoginRadius';
+	}else{
+		document.getElementById('lrsiteRow').style.display = 'table-row';
+		document.getElementById('loginRadiusToggleFormLink').innerHTML = 'Already have an account?';
+		document.getElementById('loginRadiusToggleFormLink').setAttribute('onclick', 'loginRadiusToggleForm("login")');
+		document.getElementById('loginRadiusSubmit').value = 'Register';
+		document.getElementById('loginRadiusFormTitle').innerHTML = 'Register to LoginRadius';
+	}
+	document.getElementById('loginRadiusMessage').innerHTML = '';
 }
 function loginRadiusAdminUI(){
 	for(var key in loginRadiusSharingHorizontalSharingTheme){

@@ -121,9 +121,130 @@ function login_radius_sharing_option_page(){
 			loginRadiusSharingHtml += 'name="LoginRadius_sharing_settings[vertical_counter_providers][]" value="'+$SC.Providers.All[i]+'"> <label>'+$SC.Providers.All[i]+'</label></div>';
 		}
 		// show vertical counter providers list
-		jQuery('#login_radius_vertical_counter_providers_container').html(loginRadiusSharingHtml);
+			jQuery('#login_radius_vertical_counter_providers_container').html(loginRadiusSharingHtml);
+		<?php
+		if($loginRadiusSettings['LoginRadius_apikey'] == ''){
+			?>
+			// bind LR login/register API call to the form button
+			document.getElementById('loginRadiusSubmit').onclick = function(){
+				loginRadiusLRLogin(this);
+			};
+			<?php
+		}
+		?>
 	};
-	
+	// ajax for user registration/login to LR.com. Password validation
+	function loginRadiusLRLogin(elem){
+		// form validation
+		var email = jQuery('#username').val().trim();
+		if(email == "" || jQuery('#password').val().trim() == "" || (jQuery('#lrsiteRow').css('display') != 'none' && jQuery('#lrsite').val().trim() == "")){
+			jQuery('#loginRadiusMessage').html('<?php _e('Please fill all the fields.', 'LoginRadius') ?>').css('color', 'red');
+			return;
+		}
+		// email validation
+		var atPosition = email.indexOf("@");
+		var dotPosition = email.lastIndexOf(".");
+		if(atPosition < 1 || dotPosition < atPosition+2 || dotPosition+2>=email.length){
+			jQuery('#loginRadiusMessage').html('<?php _e('Please enter a valid email address.', 'LoginRadius') ?>').css('color', 'red');
+			return;
+		}
+		//password length validation
+		if(jQuery('#password').val().length < 6 || jQuery('#password').val().length > 32 ) {
+			jQuery('#loginRadiusMessage').html('<?php _e('Password length should be minimum of 6 characters and maximum 32 characters', 'LoginRadius') ?>').css('color', 'red');
+			return;
+		}
+		//Site Name validation
+		if (jQuery('#lrsiteRow').css('display') != 'none' && jQuery('#lrsite').val().match(/[.]/g)) {
+			jQuery('#loginRadiusMessage').html('<?php _e('Symbol "." not allowed.', 'LoginRadius') ?>').css('color', 'red');
+			return;
+		}
+		
+		if (jQuery('#lrsiteRow').css('display') != 'none' && jQuery('#lrsite').val().match(/[_]/g)) {
+			jQuery('#loginRadiusMessage').html('<?php _e('Symbol "_" not allowed.', 'LoginRadius') ?>').css('color', 'red');
+			return;
+		}
+		if(jQuery('#lrsiteRow').css('display') != 'none' && jQuery('#lrsite').val().length < 4 ) {
+			jQuery('#loginRadiusMessage').html('<?php _e('Site name must be longer than three characters.', 'LoginRadius') ?>').css('color', 'red');
+			return;
+		}
+		 var url = "https://" + jQuery('#lrsite').val().trim() + ".hub.loginradius.com";
+         var regularExpression = "^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&%\$#_]*)?$";
+		if (jQuery('#lrsiteRow').css('display') != 'none' && !url.match(regularExpression)) {
+			jQuery('#loginRadiusMessage').html('<?php _e('Site Name is not valid.', 'LoginRadius') ?>').css('color', 'red');
+			return;
+		}
+		// processing message
+		jQuery('#loginRadiusMessage').html('<img width="20" height="20" src="<?php echo plugins_url('images/loading_icon.gif', __FILE__); ?>" style="float:left;margin-right: 5px;" /><span style="color:blue; width:auto"><?php _e('Please wait. This may take a few minutes', 'LoginRadius') ?>...</span>');
+		// create data object
+		var dataObject = {
+			action: 'login_radius_lr_login', 
+			UserName: jQuery('#username').val().trim(),
+			password: jQuery('#password').val().trim()
+		};
+		//var targetUrl = 'https://dev.loginradius.com/api/v1/user.'+append+'?UserName='+jQuery('#username').val().trim()+'&password='+jQuery('#password').val().trim()+'&ip=<?php echo $_SERVER['REMOTE_ADDR'] ?>&Url=<?php echo site_url() ?>&Useragent='+navigator.sayswho[1]+'&Technology=Wordpress';
+		if(jQuery('#lrsiteRow').css('display') != 'none'){
+			dataObject.lrsite = jQuery('#lrsite').val().trim();
+		}
+		jQuery.ajax({
+		  type: 'POST',
+		  url: '<?php echo get_admin_url() ?>admin-ajax.php',
+		  data: dataObject,
+		  dataType: 'json',
+		  success: function(data, textStatus, XMLHttpRequest){
+			if(data.status == 0){
+				// show the message
+				jQuery('#loginRadiusMessage').html(data.message).css('color', 'red');
+			}else if(data.status == 1 && data.message == 'registration successful'){
+				// refresh the page
+				location.href = location.href;
+			}else if(data.status == 1 && data.message == 'login successful'){
+				// display the app list
+				var html = '<h3 id="loginRadiusFormTitle">Site Selection</h3><table class="form-table"><tbody><tr><th><label for="lrSites"><?php _e('Select a LoginRadius site', 'LoginRadius') ?></label></th><td><select id="lrSites"><option value="">--Select a Site--</option>';
+				for(var i = 0; i < data.result.length; i++){
+					html += '<option value="'+data.result[i].apikey+'">'+data.result[i].appName+'</option>';
+				}
+				html += '</select>';
+				html += '</td></tr><tr><td><input type="button" id="loginRadiusLRSiteSave" class="button button-primary" value="<?php _e('Save', 'LoginRadius') ?>" /></td><td><div id="loginRadiusMessage"></div></td></tr>';
+				jQuery('#loginRadiusLoginForm').html(html);
+				document.getElementById('loginRadiusLRSiteSave').onclick = function(){
+					loginRadiusSaveLRSite();
+				};
+			}
+		  },
+		  error: function(a, b, c){
+		  	alert(JSON.stringify(a, null, 4)+"\n"+b+"\n"+c)
+		  }
+		});
+	}
+	// save selected LR Site API Key
+	function loginRadiusSaveLRSite(){
+		if(jQuery('#lrSites').val().trim() == ""){
+			jQuery('#loginRadiusMessage').html('<?php _e('Please select a site', 'LoginRadius') ?>').css('color', 'red');
+			return;
+		}
+		// processing message
+		jQuery('#loginRadiusMessage').html('<img width="20" height="20" src="<?php echo plugins_url('images/loading_icon.gif', __FILE__); ?>" style="float:left;margin-right: 5px;" /><span style="color:blue; width:auto"><?php _e('Please wait. This may take a few minutes', 'LoginRadius') ?>...</span>');
+		jQuery.ajax({
+		  type: 'POST',
+		  url: '<?php echo get_admin_url() ?>admin-ajax.php',
+		  data: {
+			  action: 'login_radius_save_lr_site',
+			  apikey: jQuery('#lrSites').val().trim()
+		  },
+		  success: function(data, textStatus, XMLHttpRequest){
+			if(data == "success"){
+				// refresh the page
+				location.href = location.href;
+			}else{
+				// unexpected error
+				jQuery('#loginRadiusMessage').html('<?php _e('Unexpected error occurred', 'LoginRadius') ?>').css('color', 'red');
+			}
+		  },
+		  error: function(a, b, c){
+		  	alert(JSON.stringify(a, null, 4)+"\n"+b+"\n"+c)
+		  }
+		});
+	}
 	</script>
 	<div class="wrapper">
 	<form action="options.php" method="post">
@@ -155,7 +276,7 @@ function login_radius_sharing_option_page(){
 		</div>
 		<div class="clr"></div>
 		<?php
-		if(trim($loginRadiusSettings['LoginRadius_apikey']) != "" && !loginradiusValidateKey(trim($loginRadiusSettings['LoginRadius_apikey']))){
+		if(isset($loginRadiusSettings['LoginRadius_apikey']) && trim($loginRadiusSettings['LoginRadius_apikey']) != "" && !loginradiusValidateKey(trim($loginRadiusSettings['LoginRadius_apikey']))){
 			?>
 			<div class="error">
 			<p>
@@ -165,7 +286,50 @@ function login_radius_sharing_option_page(){
 			<?php
 		}
 		?>
-		<div class="metabox-holder columns-2" id="post-body">
+		<!-- Login, registration form at the installation of the plugin -->
+		<?php
+		// if plugin option doesn't exist in db, show the login/registration options
+		if($loginRadiusSettings['LoginRadius_apikey'] == ""){
+			?>
+			<div id="loginRadiusLoginForm">
+				<h3 id="loginRadiusFormTitle">Register to LoginRadius</h3>
+				<form id="loginRadiusLRForm">
+				<table class="form-table">
+					<tbody>
+					<tr>
+						<th><label for="username"><?php _e('Email', 'LoginRadius') ?></label></th>
+						<td>
+							<input type="text" name="username" id="username" class="regular-text">
+						</td>
+					</tr>
+					
+					<tr>
+						<th><label for="password"><?php _e('Password', 'LoginRadius') ?></label></th>
+						<td><input type="password" style="float: left; border: #acacac 1px solid; border-radius: 4px; width: 276px;" name="password" id="password" value="" class="regular-text"></td>
+					</tr>
+					<tr id="lrsiteRow">
+						<th><label for="lrsite"><?php _e('LoginRadius Site', 'LoginRadius') ?></label></th>
+						<td><input type="text" name="lrsite" id="lrsite" value="" class="regular-text"></td>
+					</tr>
+					<tr>
+						<td><input type="button" id="loginRadiusSubmit" class="button button-primary" value="<?php _e('Register', 'LoginRadius') ?>" /></td>
+						<td><div id="loginRadiusMessage"></div></td>
+					</tr>
+					<tr>
+						<td>
+						<a style="text-decoration:none" id="loginRadiusToggleFormLink" href="javascript:void(0)" onclick="loginRadiusToggleForm('login')"><?php _e('Already have an account?', 'LoginRadius') ?></a><br/>
+						<a style="text-decoration:none" target="_blank" href="https://www.loginradius.com/login/forgotten" onclick="loginRadiusToggleForm('login')"><?php _e('Forgot your password?', 'LoginRadius') ?></a>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+				</form>
+			</div>
+			<?php
+		}else{
+			?>
+			<!-- Login, registration form at the installation of the plugin end -->
+			<div class="metabox-holder columns-2" id="post-body">
 				<div class="menu_div" id="tabs">
 					<h2 class="nav-tab-wrapper" style="height:36px">
 					<ul>
@@ -351,7 +515,7 @@ function login_radius_sharing_option_page(){
 						</div>
 						<input type="checkbox" name="LoginRadius_sharing_settings[horizontal_shareTop]" value="1" <?php echo isset($loginRadiusSettings['horizontal_shareTop']) && $loginRadiusSettings['horizontal_shareTop'] == 1 ? 'checked' : '' ?>/> <?php _e ('Show at the top of content', 'LoginRadius'); ?> <br /> 
 						<input type="checkbox" name="LoginRadius_sharing_settings[horizontal_shareBottom]" value="1" <?php echo isset($loginRadiusSettings['horizontal_shareBottom']) && $loginRadiusSettings['horizontal_shareBottom'] == 1 ? 'checked' : '' ?>/> <?php _e ('Show at the bottom of content', 'LoginRadius'); ?> 					    <div class="loginRadiusBorder2"></div>
-
+	
 						<div class="loginRadiusQuestion" style="margin-top:10px">
 						<?php _e("What area(s) do you want to show the social sharing widget?", 'LoginRadius'); ?>
 						</div>
@@ -512,7 +676,7 @@ function login_radius_sharing_option_page(){
 						}
 					?>
 					</table>
-
+	
 					</div>
 					</div>
 				</div>
@@ -524,6 +688,7 @@ function login_radius_sharing_option_page(){
 						<tr id="login_radius_vertical_position_counter">
 						<td>
 							<ul style="float:left; margin-right:86px">
+
 								<li><a target="_blank" href="http://support.loginradius.com/customer/portal/articles/1189987-wordpress-social-sharing-installation-configuration-and-troubleshooting"><?php _e('Plugin Installation, Configuration and Troubleshooting', 'LoginRadius') ?></a></li>
 								<li><a target="_blank" href="http://support.loginradius.com/customer/portal/articles/677100-how-to-get-loginradius-api-key-and-secret"><?php _e('How to get LoginRadius API Key', 'LoginRadius') ?></a></li>
 								<li><a target="_blank" href="http://community.loginradius.com/"><?php _e('Discussion Forum', 'LoginRadius') ?></a></li>
@@ -540,21 +705,25 @@ function login_radius_sharing_option_page(){
 						</div>
 						</div>
 					</div>
-		</div>
-		<p class="submit">   
-			<?php   
-			// Build Preview Link   
-			$preview_link = esc_url(get_option('home' ) . '/' );   
-			if(is_ssl()){ 
-				$preview_link = str_replace('http://', 'https://', $preview_link ); 
-			} 
-			$stylesheet = get_option('stylesheet');   
-			$template = get_option('template');   
-			$preview_link = htmlspecialchars(add_query_arg(array('preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'preview_iframe' => true, 'TB_iframe' => 'true' ), $preview_link ) );   
-			?>
-			<input style="margin-left:8px" type="submit" name="save" class="button button-primary" value="<?php _e("Save Changes", 'LoginRadius'); ?>" />   
-			<a href="<?php echo $preview_link; ?>" class="thickbox thickbox-preview" id="preview" ><?php _e('Preview', 'LoginRadius'); ?></a>   
-		</p>
+				</div>
+				<p class="submit">   
+					<?php   
+					// Build Preview Link   
+					$preview_link = esc_url(get_option('home' ) . '/' );   
+					if(is_ssl()){ 
+						$preview_link = str_replace('http://', 'https://', $preview_link ); 
+					} 
+					$stylesheet = get_option('stylesheet');   
+					$template = get_option('template');   
+					$preview_link = htmlspecialchars(add_query_arg(array('preview' => 1, 'template' => $template, 'stylesheet' => $stylesheet, 'preview_iframe' => true, 'TB_iframe' => 'true' ), $preview_link ) );   
+					?>
+					<input style="margin-left:8px" type="submit" name="save" class="button button-primary" value="<?php _e("Save Changes", 'LoginRadius'); ?>" />   
+					<a href="<?php echo $preview_link; ?>" class="thickbox thickbox-preview" id="preview" ><?php _e('Preview', 'LoginRadius'); ?></a>
+				</p>
+			</div>
+			<?php
+		}
+		?>
 	</form>
 	</div>
 	<?php

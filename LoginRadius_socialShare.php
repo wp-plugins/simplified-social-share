@@ -53,7 +53,12 @@ function login_radius_sharing_share_content($content){
 		if((isset( $loginRadiusSettings['vertical_sharehome']) && is_front_page()) || ( isset( $loginRadiusSettings['vertical_sharepost'] ) && is_single() ) || ( isset( $loginRadiusSettings['vertical_sharepage'] ) && is_page() ) || ( isset( $loginRadiusSettings['vertical_shareexcerpt'] ) && has_excerpt() ) || ( isset( $loginRadiusSettings['vertical_sharearchive'] ) && is_archive() ) || ( isset( $loginRadiusSettings['vertical_sharefeed'] ) && is_feed() ) ){	
 			if(is_front_page()){
 				global $verticalInterfaceCount;
-				if($verticalInterfaceCount == 0){
+				if(current_filter() == 'the_content'){
+					$compareCount = 0;
+				}elseif(current_filter() == 'get_the_excerpt'){
+					$compareCount = 1;
+				}
+				if($verticalInterfaceCount == $compareCount){
 					$content = $content.$loginRadiusVerticalSharingDiv;
 					$verticalInterfaceCount++;
 				}
@@ -65,3 +70,4 @@ function login_radius_sharing_share_content($content){
 	return $content;
 }
 add_filter('the_content', 'login_radius_sharing_share_content');
+add_filter('get_the_excerpt', 'login_radius_sharing_share_content');

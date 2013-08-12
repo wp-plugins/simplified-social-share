@@ -3,11 +3,12 @@
 Plugin Name:Simplified Social Sharing  
 Plugin URI: http://www.LoginRadius.com
 Description: Add Social Sharing to your WordPress website.
-Version: 1.1
+Version: 1.5
 Author: LoginRadius Team
 Author URI: http://www.LoginRadius.com
 License: GPL2+
 */
+require_once('LoginRadiusSDK.php');
 require_once('LoginRadius_function.php');
 require_once('LoginRadius_widget.php');
 require_once('LoginRadius_admin.php');
@@ -170,4 +171,182 @@ function login_radius_sharing_activation(){
 										));
 }
 register_activation_hook(__FILE__, 'login_radius_sharing_activation');
+
+//$loginRadiusObject = new LoginRadius();
+//$loginRadiusObject -> login_radius_lr_login('https://www.loginradius.com/api/v1/user.login?UserName=rajat7@gmail.com&password=123456&ip=127.0.0.1&Url=http://rajat.localdomain/wordpress&Useragent=Mozilla/5.0 (Windows NT 6.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.95 Safari/537.36&Technology=Wordpress', 'curl');
+//login_radius_lr_login();
+/**
+ * call LR api to login/register user.
+ */
+function login_radius_lr_login(){
+	$loginRadiusObject = new LoginRadius();
+	$method = "";
+	// api connection handler detection
+	if(in_array('curl', get_loaded_extensions())){
+		$response = $loginRadiusObject->login_radius_check_connection($method = "curl");
+		if($response == "service connection timeout" || $response == "timeout"){
+			die(
+			   json_encode(
+			   	   array(
+				   	 'status' => 0,
+				   	 'message' => 'Uh oh, looks like something went wrong. Try again in a sec!'
+				   )
+			   )
+			);
+		}elseif($response == "connection error"){
+			die(
+			   json_encode(
+			   	   array(
+				   	 'status' => 0,
+				   	 'message' => 'Problem in communicating LoginRadius API. Please check if one of the API Connection method mentioned above is working.'
+				   )
+			   )
+			);
+		}
+	}elseif(ini_get('allow_url_fopen') == 1){
+		$response = $loginRadiusObject->login_radius_check_connection($method = "fopen");
+		if($response == "service connection timeout" || $response == "timeout"){
+			die(
+			   json_encode(
+			   	   array(
+				   	 'status' => 0,
+				   	 'message' => 'Uh oh, looks like something went wrong. Try again in a sec!'
+				   )
+			   )
+			);
+		}elseif($response == "connection error"){
+			die(
+			   json_encode(
+			   	   array(
+				   	 'status' => 0,
+				   	 'message' => 'Problem in communicating LoginRadius API. Please check if one of the API Connection method mentioned above is working.'
+				   )
+			   )
+			);
+		}
+	}else{
+		die(
+		   json_encode(
+			   array(
+				 'status' => 0,
+				 'message' => 'Please check your php.ini settings to enable CURL or FSOCKOPEN'
+			   )
+		   )
+		);
+	}
+	// call LR login/register API
+	if(isset($_POST['action'])){
+		// if any value posted is blank, halt
+		foreach($_POST as $value){
+			if(trim($value) == ""){
+				die(
+				   json_encode(
+					   array(
+						 'status' => 0,
+						 'message' => 'Unexpected error occurred'
+					   )
+				   )
+				);
+			}
+		}
+		if(isset($_POST['lrsite'])){
+			$append = 'create';
+		}else{
+			$append = 'login';
+		}
+		$queryString = array(
+			'UserName' => trim($_POST["UserName"]),
+			'password' => trim($_POST["password"]),
+			'ip' => $_SERVER["REMOTE_ADDR"],
+			'Url' => site_url(),
+			'Useragent' => $_SERVER["HTTP_USER_AGENT"],
+			'Technology' => 'Wordpress'
+		);
+		// append LR site name
+		if(isset($_POST['lrsite'])){
+			$queryString['AppName'] = trim($_POST['lrsite']);
+		}
+		$apiEndpoint = 'https://www.loginradius.com/api/v1/user.'.$append.'?'.http_build_query($queryString);
+		// call LR api function
+		$result = $loginRadiusObject -> login_radius_lr_login($apiEndpoint, $method);
+		if(isset($result -> errorCode)){
+			// error in login/registration
+			die(
+			   json_encode(
+				   array(
+					 'status' => 0,
+					 'message' => $result -> message 
+				   )
+			   )
+			);
+		}else{
+			// if new user created at LR
+			if(isset($_POST['lrsite'])){
+				update_option('LoginRadius_sharing_settings', array(
+															   'LoginRadius_apikey' => $result[0] -> apikey,
+															   'LoginRadius_sharingTheme' => 'horizontal',
+															   'LoginRadius_counterTheme' => 'horizontal',
+															   'LoginRadius_shareEnable' => '1',
+															   'horizontal_shareEnable' => '1',
+															   'horizontal_shareTop' => '1',
+															   'horizontal_shareBottom' => '1',
+															   'horizontal_sharehome' => '1',
+															   'horizontal_sharepost' => '1',
+															   'horizontal_sharepage' => '1',
+															   'vertical_shareEnable' => '1',
+															   'verticalSharing_theme' => 'counter_vertical',
+															   'vertical_sharehome' => '1',
+															   'vertical_sharepost' => '1',
+															   'vertical_sharepage' => '1',
+															   'sharing_offset' => '200'
+															));
+				die(
+				   json_encode(
+					   array(
+						 'status' => 1,
+						 'message' => 'registration successful'
+					   )
+				   )
+				);
+			}else{									// user login at LR
+				// show APPs in admin
+				die(
+				   json_encode(
+					   array(
+						 'status' => 1,
+						 'message' => 'login successful',
+						 'result' => $result
+					   )
+				   )
+				);
+			}
+		}
+	}
+}
+add_action('wp_ajax_login_radius_lr_login', 'login_radius_lr_login');
+function login_radius_save_lr_site(){
+	if(isset($_POST['apikey']) && trim($_POST['apikey']) != ""){
+		update_option('LoginRadius_sharing_settings', array(
+															   'LoginRadius_apikey' => trim($_POST['apikey']),
+															   'LoginRadius_sharingTheme' => 'horizontal',
+															   'LoginRadius_counterTheme' => 'horizontal',
+															   'LoginRadius_shareEnable' => '1',
+															   'horizontal_shareEnable' => '1',
+															   'horizontal_shareTop' => '1',
+															   'horizontal_shareBottom' => '1',
+															   'horizontal_sharehome' => '1',
+															   'horizontal_sharepost' => '1',
+															   'horizontal_sharepage' => '1',
+															   'vertical_shareEnable' => '1',
+															   'verticalSharing_theme' => 'counter_vertical',
+															   'vertical_sharehome' => '1',
+															   'vertical_sharepost' => '1',
+															   'vertical_sharepage' => '1',
+															   'sharing_offset' => '200'
+															));
+		die('success');
+	}
+	die('error');
+}
+add_action('wp_ajax_login_radius_save_lr_site', 'login_radius_save_lr_site');
 ?>
