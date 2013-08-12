@@ -13,9 +13,8 @@ Let your users share via their accounts on popular social networks such as Faceb
 == Description ==
 Just install this FREE plugin to enable Social Sharing on your WordPress site. This plugin is also compatible with WordPress multisite.
 
-See the <a href="http://wordpress.org/extend/plugins/loginradius-sharing-for-wordpress/screenshots">screenshot section</a> for visuals on social sharing features.
+See the <a href="http://wordpress.org/plugins/simplified-social-share/screenshots/">screenshot section</a> for visuals on social sharing features.
 
-Please see the detailed information about these features:
 = Social Sharing = Let users share your web contents on over 90 social networks resulting into dramatic increase in referral traffic.
 
 = Plugin Live Demo =
