@@ -2,7 +2,7 @@
 /** 
  * This class contains functions to communicate with LoginRadius API. 
  */	 
-class LoginRadius{ 
+class LoginRadiusSharing{ 
 	/** 
 	 * Check if CURL/FSOCKOPEN are working. 
 	 */	 
@@ -39,6 +39,7 @@ class LoginRadius{
 			curl_setopt($curl_handle, CURLOPT_TIMEOUT, 5);
 			if($post){
 				curl_setopt($curl_handle, CURLOPT_POST, 1);
+				curl_setopt($curl_handle, CURLOPT_POSTFIELDS, '');
 			}
 			curl_setopt($curl_handle, CURLOPT_SSL_VERIFYPEER, false); 
 			if(ini_get('open_basedir') == '' && (ini_get('safe_mode') == 'Off' or !ini_get('safe_mode'))){
@@ -64,8 +65,27 @@ class LoginRadius{
 			}
 			curl_close($curl_handle);
 		}else{
-			$JsonResponse = @file_get_contents($ValidateUrl);
-			if(strpos(@$http_response_header[0], "400") !== false || strpos(@$http_response_header[0], "401") !== false || strpos(@$http_response_header[0], "403") !== false || strpos(@$http_response_header[0], "404") !== false || strpos(@$http_response_header[0], "500") !== false || strpos(@$http_response_header[0], "503") !== false){
+			if($post){
+				$postdata = http_build_query(
+					array(
+						'var1' => 'val'
+					)
+				);
+				$options = array('http' =>
+					array(
+						'method'  => 'POST',
+						'timeout' => 10,
+						'header'  => 'Content-type: application/x-www-form-urlencoded',
+						'content' => $postdata,
+						'ignore_errors' => true
+					)
+				);
+				$context  = stream_context_create($options);
+			}else{
+				$context = NULL;
+			}
+			$JsonResponse = file_get_contents($ValidateUrl, false, $context);
+			if(strpos(@$http_response_header[0], "400") !== false || strpos(@$http_response_header[0], "401") !== false || strpos(@$http_response_header[0], "404") !== false || strpos(@$http_response_header[0], "500") !== false || strpos(@$http_response_header[0], "503") !== false){
 				return "service connection timeout";
 			}
 		}

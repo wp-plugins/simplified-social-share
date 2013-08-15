@@ -30,12 +30,14 @@ window.onload = function(){
 function loginRadiusToggleForm(val){
 	if(val == 'login'){
 		document.getElementById('lrsiteRow').style.display = 'none';
+		document.getElementById('confirmPasswordRow').style.display = 'none';
 		document.getElementById('loginRadiusToggleFormLink').innerHTML = 'Register';
 		document.getElementById('loginRadiusToggleFormLink').setAttribute('onclick', 'loginRadiusToggleForm("register")');
 		document.getElementById('loginRadiusSubmit').value = 'Login';
 		document.getElementById('loginRadiusFormTitle').innerHTML = 'Login to LoginRadius';
 	}else{
 		document.getElementById('lrsiteRow').style.display = 'table-row';
+		document.getElementById('confirmPasswordRow').style.display = 'table-row';
 		document.getElementById('loginRadiusToggleFormLink').innerHTML = 'Already have an account?';
 		document.getElementById('loginRadiusToggleFormLink').setAttribute('onclick', 'loginRadiusToggleForm("login")');
 		document.getElementById('loginRadiusSubmit').value = 'Register';

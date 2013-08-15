@@ -133,6 +133,18 @@ function login_radius_sharing_option_page(){
 		}
 		?>
 	};
+	// confirm password validation
+	function loginRadiusConfirmPasswordValidate(){
+		var loginRadiusNotificationDiv = document.getElementById('loginRadiusMessage');
+		if(document.getElementById('password').value.trim() != document.getElementById('confirm_password').value.trim()){
+			loginRadiusNotificationDiv.innerHTML = 'Passwords do not match.';
+			loginRadiusNotificationDiv.style.color = 'red';
+			return false;
+		}else{
+			loginRadiusNotificationDiv.innerHTML = '';
+			return true;
+		}
+	}
 	// ajax for user registration/login to LR.com. Password validation
 	function loginRadiusLRLogin(elem){
 		// form validation
@@ -153,14 +165,17 @@ function login_radius_sharing_option_page(){
 			jQuery('#loginRadiusMessage').html('<?php _e('Password length should be minimum of 6 characters and maximum 32 characters', 'LoginRadius') ?>').css('color', 'red');
 			return;
 		}
-		//Site Name validation
-		if (jQuery('#lrsiteRow').css('display') != 'none' && jQuery('#lrsite').val().match(/[.]/g)) {
-			jQuery('#loginRadiusMessage').html('<?php _e('Symbol "." not allowed.', 'LoginRadius') ?>').css('color', 'red');
+		// confirm password validation
+		if(jQuery('#confirmPasswordRow').css('display') != 'none' && !loginRadiusConfirmPasswordValidate()){
 			return;
 		}
-		
+		//Site Name validation
+		if (jQuery('#lrsiteRow').css('display') != 'none' && jQuery('#lrsite').val().match(/[.]/g)) {
+			jQuery('#loginRadiusMessage').html('<?php _e('Symbol "." not allowed in LoginRadius Site name.', 'LoginRadius') ?>').css('color', 'red');
+			return;
+		}
 		if (jQuery('#lrsiteRow').css('display') != 'none' && jQuery('#lrsite').val().match(/[_]/g)) {
-			jQuery('#loginRadiusMessage').html('<?php _e('Symbol "_" not allowed.', 'LoginRadius') ?>').css('color', 'red');
+			jQuery('#loginRadiusMessage').html('<?php _e('Symbol "_" not allowed in LoginRadius Site name.', 'LoginRadius') ?>').css('color', 'red');
 			return;
 		}
 		if(jQuery('#lrsiteRow').css('display') != 'none' && jQuery('#lrsite').val().length < 4 ) {
@@ -181,7 +196,6 @@ function login_radius_sharing_option_page(){
 			UserName: jQuery('#username').val().trim(),
 			password: jQuery('#password').val().trim()
 		};
-		//var targetUrl = 'https://dev.loginradius.com/api/v1/user.'+append+'?UserName='+jQuery('#username').val().trim()+'&password='+jQuery('#password').val().trim()+'&ip=<?php echo $_SERVER['REMOTE_ADDR'] ?>&Url=<?php echo site_url() ?>&Useragent='+navigator.sayswho[1]+'&Technology=Wordpress';
 		if(jQuery('#lrsiteRow').css('display') != 'none'){
 			dataObject.lrsite = jQuery('#lrsite').val().trim();
 		}
@@ -292,6 +306,9 @@ function login_radius_sharing_option_page(){
 		if($loginRadiusSettings['LoginRadius_apikey'] == ""){
 			?>
 			<div id="loginRadiusLoginForm">
+				<div id="loginRadiusKeySecretNotification" style="background-color: rgb(255, 255, 224); border: 1px solid rgb(230, 219, 85); padding: 5px; margin-bottom: 5px; width: 1050px;">
+					Register now to activate the plugin and we will help you by providing feedback to get more referral traffic at your website.
+				</div>
 				<h3 id="loginRadiusFormTitle">Register to LoginRadius</h3>
 				<form id="loginRadiusLRForm">
 				<table class="form-table">
@@ -302,10 +319,13 @@ function login_radius_sharing_option_page(){
 							<input type="text" name="username" id="username" class="regular-text">
 						</td>
 					</tr>
-					
 					<tr>
 						<th><label for="password"><?php _e('Password', 'LoginRadius') ?></label></th>
 						<td><input type="password" style="float: left; border: #acacac 1px solid; border-radius: 4px; width: 276px;" name="password" id="password" value="" class="regular-text"></td>
+					</tr>
+					<tr id="confirmPasswordRow">
+						<th><label for="confirm_password"><?php _e('Confirm Password', 'LoginRadius') ?></label></th>
+						<td><input onblur="loginRadiusConfirmPasswordValidate()" type="password" style="float: left; border: #acacac 1px solid; border-radius: 4px; width: 276px;" name="confirm_password" id="confirm_password" value="" class="regular-text"></td>
 					</tr>
 					<tr id="lrsiteRow">
 						<th><label for="lrsite"><?php _e('LoginRadius Site', 'LoginRadius') ?></label></th>
