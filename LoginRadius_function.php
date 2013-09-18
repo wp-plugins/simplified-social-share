@@ -3,9 +3,7 @@
 $loginRadiusSettings = get_option('LoginRadius_sharing_settings');
 
 // social share 
-if(isset($loginRadiusSettings['LoginRadius_shareEnable']) && $loginRadiusSettings['LoginRadius_shareEnable'] == '1'){ 
-	require_once('LoginRadius_socialShare.php'); 
-} 
+require_once('LoginRadius_socialShare.php'); 
 
 /** 
  * Return Sharing code. 

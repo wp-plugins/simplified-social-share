@@ -3,7 +3,7 @@
 Plugin Name:Simplified Social Sharing  
 Plugin URI: http://www.LoginRadius.com
 Description: Add Social Sharing to your WordPress website.
-Version: 1.6
+Version: 1.7
 Author: LoginRadius Team
 Author URI: http://www.LoginRadius.com
 License: GPL2+
@@ -24,7 +24,7 @@ add_filter('init', 'login_radius_sharing_init_locale');
  * Add the LoginRadius menu in the left sidebar in the admin
  */
 function login_radius_sharing_admin_menu(){
-	$page = @add_menu_page('LoginRadiusSharing', '<b>LoginRadius</b>', 8, 'LoginRadiusSharing', 'login_radius_sharing_option_page', plugins_url('images/favicon.ico', __FILE__));
+	$page = @add_menu_page('LoginRadiusSharing', '<b>LoginRadius</b>', 'manage_options', 'LoginRadiusSharing', 'login_radius_sharing_option_page', plugins_url('images/favicon.ico', __FILE__));
 	@add_action('admin_print_scripts-' . $page, 'login_radius_sharing_options_page_scripts');
 	@add_action('admin_print_styles-' . $page, 'login_radius_sharing_options_page_style');
 	@add_action('admin_print_styles-' . $page, 'login_radius_sharing_admin_css_custom_page');
@@ -56,11 +56,11 @@ function login_radius_sharing_meta_setup(){
  */
 function login_radius_sharing_save_meta($postId){
     // make sure data came from our meta box
-    if (!wp_verify_nonce($_POST['login_radius_sharing_meta_nonce'], __FILE__)){
+    if (isset($_POST['login_radius_sharing_meta_nonce']) && !wp_verify_nonce($_POST['login_radius_sharing_meta_nonce'], __FILE__)){
 		return $postId;
  	}
     // check user permissions
-    if($_POST['post_type'] == 'page'){
+    if($_REQUEST['post_type'] == 'page'){
         if(!current_user_can('edit_page', $postId)){
 			return $postId;
     	}
@@ -69,9 +69,13 @@ function login_radius_sharing_save_meta($postId){
 			return $postId;
     	}
 	}
-    $newData = $_POST['_login_radius_sharing_meta'];
-    update_post_meta($postId, '_login_radius_sharing_meta', $newData);
-    return $postId;
+	if(isset($_POST['_login_radius_sharing_meta'])){
+		$newData = $_POST['_login_radius_sharing_meta'];
+    }else{
+		$newData = 0;
+	}
+	update_post_meta($postId, '_login_radius_sharing_meta', $newData);
+	return $postId;
 }
 
 /**
@@ -106,7 +110,6 @@ function login_radius_sharing_options_page_scripts(){
 }
 
 /**
-
  * Add option Settings css.
  */
 function login_radius_sharing_options_page_style(){
@@ -154,7 +157,6 @@ function login_radius_sharing_activation(){
     add_option('LoginRadius_sharing_settings', array(
 										   'LoginRadius_sharingTheme' => 'horizontal',
 										   'LoginRadius_counterTheme' => 'horizontal',
-										   'LoginRadius_shareEnable' => '1',
 										   'horizontal_shareEnable' => '1',
 										   'horizontal_shareTop' => '1',
 										   'horizontal_shareBottom' => '1',

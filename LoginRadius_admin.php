@@ -265,25 +265,30 @@ function login_radius_sharing_option_page(){
 		<?php settings_fields('LoginRadius_sharing_setting_options'); ?>
 		<div class="header_div">
 		<h2>LoginRadius <?php _e('Simplified Social Sharing Settings', 'LoginRadius') ?></h2>
-		<fieldset style="margin-right:13px; height:170px; background-color:#EAF7FF; border-color:rgb(195, 239, 250); padding-bottom:10px; width:751px">
-		<h4 style="color:#000"><strong><?php _e('Thank you for installing the Simplified Social Sharing!', 'LoginRadius') ?></strong></h4>
-		<a style="text-decoration:none;" href="http://www.loginradius.com/?utm_source=wpplugin&utm_medium=install&utm_campaign=wpsharing" target="_blank">
-			<input id="login_radius_advanced_features_btn" class="greenbutton green" type="button" value="<?php _e('Get advance features - Sign up for FREE', 'LoginRadius'); ?>" />
-		</a><br /><br />
-
+		<fieldset style="margin-right:13px; height:176px; background-color:#EAF7FF; border-color:rgb(195, 239, 250); padding-bottom:10px; width:751px">
+		<h4 style="color:#000"><strong>Thank you for installing LoginRadius Simplified Social Share plugin!</strong></h4>
 		<p>
-		<?php _e('We also offer Social Plugins for ', 'LoginRadius') ?><a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#joomlaextension" target="_blank">Joomla</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#drupalmodule" target="_blank">Drupal</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#vBulletinplugin" target="_blank">vBulletin</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#vanillaaddons" target="_blank">VanillaForum</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#magentoextension" target="_blank">Magento</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#osCommerceaddons" target="_blank">OSCommerce</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#prestashopmodule" target="_blank">PrestaShop</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#xcartextension" target="_blank">X-Cart</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#zencartplugin" target="_blank">Zen-Cart</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#dotnetnukemodule" target="_blank">DotNetNuke</a> <?php _e('and', 'LoginRadius') ?> <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#blogengineextension" target="_blank">BlogEngine</a>!
+			<a href="https://www.loginradius.com/">LoginRadius</a> provides <a target="_blank" href="https://www.loginradius.com/loginradius/product-overview#SocialLoginTab">Social Login</a>, <a target="_blank" href="https://www.loginradius.com/loginradius/product-overview#SocialSharingTab">Social Share</a>, <a target="_blank" href="https://www.loginradius.com/loginradius/product-overview#FriendsInviteTab">Friend Invite</a>, <a target="_blank" href="https://www.loginradius.com/loginradius/product-overview#UserProfileDataTab">User Social Profile Data</a>, <a target="_blank" href="https://www.loginradius.com/loginradius/product-overview#OnlineTab">User Profile Access</a>, <a target="_blank" href="https://www.loginradius.com/loginradius/product-overview#SingleSignOnTab">Single Sign-on</a> and <a target="_blank" href="https://www.loginradius.com/loginradius/product-overview#SocialAnalyticsTab">Social Analytics</a> as single Unified API.
+		</p>
+		<p>
+			We also have ready to use plugins for <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#magentoextension" target="_blank">Magento</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#joomlaextension" target="_blank">Joomla</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#drupalmodule" target="_blank">Drupal</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#vBulletinplugin" target="_blank">vBulletin</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#vanillaaddons" target="_blank">VanillaForum</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#osCommerceaddons" target="_blank">OSCommerce</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#prestashopmodule" target="_blank">PrestaShop</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#xcartextension" target="_blank">X-Cart</a>, <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#zencartplugin" target="_blank">Zen-Cart</a> and <a href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms#dotnetnukemodule" target="_blank">DotNetNuke</a>!
 		</p>
 		</fieldset>
 		
-		<fieldset style="width:25%; background-color: rgb(231, 255, 224); border: 1px solid rgb(191, 231, 176); padding-bottom:6px; height:173px; width:255px">
-		<h4 style="border-bottom:#d7d7d7 1px solid;"><strong><?php _e('Get Updates', 'LoginRadius') ?></strong></h4>
-		<p><?php _e('To receive updates on new features, future releases, etc, please connect with us via Facebook', 'LoginRadius') ?>-</p>
-		<div>
-			<div style="float:left">
-				<iframe rel="tooltip" scrolling="no" frameborder="0" allowtransparency="true" style="border: none; overflow: hidden; width: 46px;
-							height: 61px; margin-right:10px" src="//www.facebook.com/plugins/like.php?app_id=194112853990900&amp;href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FLoginRadius%2F119745918110130&amp;send=false&amp;layout=box_count&amp;width=90&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=arial&amp;height=90" data-original-title="Like us on Facebook"></iframe>
+		<fieldset style="width:25%; background-color: rgb(231, 255, 224); border: 1px solid rgb(191, 231, 176); padding-bottom:6px; height:180px; width:255px">
+		<div style="margin:5px 0">
+			<strong>Plugin Version:</strong> 1.7<br/>
+			<strong>Author:</strong> LoginRadius<br/>
+			<strong>Website:</strong> <a href="https://www.loginradius.com" target="_blank">www.loginradius.com</a> <br/>
+			<strong>Community:</strong> <a href="http://community.loginradius.com" target="_blank">community.loginradius.com</a> <br/>
+			To receive updates on new features, future releases and other updates, please connect with us on
+			Facebook-
+			<div>
+				<div style="float:left">
+					<iframe rel="tooltip" scrolling="no" frameborder="0" allowtransparency="true" style="border: none; overflow: hidden; width: 46px; height: 61px; margin-right:10px" src="//www.facebook.com/plugins/like.php?app_id=194112853990900&amp;href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FLoginRadius%2F119745918110130&amp;send=false&amp;layout=box_count&amp;width=90&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=arial&amp;height=90" data-original-title="Like us on Facebook"></iframe>
 				</div>
+				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+			</div>
 		</div>
 		</fieldset>
 		
@@ -306,9 +311,6 @@ function login_radius_sharing_option_page(){
 		if($loginRadiusSettings['LoginRadius_apikey'] == ""){
 			?>
 			<div id="loginRadiusLoginForm">
-				<div id="loginRadiusKeySecretNotification" style="background-color: rgb(255, 255, 224); border: 1px solid rgb(230, 219, 85); padding: 5px; margin-bottom: 5px; width: 1050px;">
-					Register now to activate the plugin and we will help you by providing feedback to get more referral traffic at your website.
-				</div>
 				<h3 id="loginRadiusFormTitle">Register to LoginRadius</h3>
 				<form id="loginRadiusLRForm">
 				<table class="form-table">
@@ -330,6 +332,10 @@ function login_radius_sharing_option_page(){
 					<tr id="lrsiteRow">
 						<th><label for="lrsite"><?php _e('LoginRadius Site', 'LoginRadius') ?></label></th>
 						<td><input type="text" name="lrsite" id="lrsite" value="" class="regular-text"></td>
+					</tr>
+					<tr id="lrSiteMessageRow">
+						<th></th>
+						<td><span style="font-size:11px">(Your LoginRadius Site Name must not include periods ('.') or any other special symbols. Just use letters (A-Z), digits (0-9) or dash ( - )!)</span></td>
 					</tr>
 					<tr>
 						<td><input type="button" id="loginRadiusSubmit" class="button button-primary" value="<?php _e('Register', 'LoginRadius') ?>" /></td>
@@ -383,23 +389,12 @@ function login_radius_sharing_option_page(){
 					<tr>
 					<td>
 					<div class="loginRadiusQuestion">
-					<?php _e("Do you want to enable Social Sharing for your website", 'LoginRadius'); ?>?
+					<?php _e("Which page do you want to get shared when multiple social sharing interfaces are shown on a page/home page?", 'LoginRadius'); ?>
 					</div>
 					<div class="loginRadiusYesRadio">
-					<input type="radio" name="LoginRadius_sharing_settings[LoginRadius_shareEnable]" value="1" <?php echo isset($loginRadiusSettings['LoginRadius_shareEnable']) && $loginRadiusSettings['LoginRadius_shareEnable'] == 1 ? 'checked' : ''; ?>/> <?php _e("Yes", 'LoginRadius') ?>
-					</div>
-					<input type="radio" name="LoginRadius_sharing_settings[LoginRadius_shareEnable]" value="0" <?php echo isset($loginRadiusSettings['LoginRadius_shareEnable']) && $loginRadiusSettings['LoginRadius_shareEnable'] == 0 ? 'checked' : ''; ?>/> <?php _e("No", 'LoginRadius') ?> 
-					</td>
-					</tr>
-					<tr>
-					<td>
-					<div class="loginRadiusQuestion">
-					<?php _e("How do you want the sharing count to be displayed in the sharing widgets at the home page of your website if it lists multiple pages/posts?", 'LoginRadius'); ?>
-					</div>
-					<div class="loginRadiusYesRadio">
-					<input type="radio" name="LoginRadius_sharing_settings[sharingCount]" value="website" <?php echo isset($loginRadiusSettings['sharingCount']) && $loginRadiusSettings['sharingCount'] == 'website' ? 'checked' : ''; ?>/> <?php _e("Website Level", 'LoginRadius') ?> <a style="text-decoration:none" href="javascript:void(0)" title="All the sharing interfaces at the home page will share your website url." >(?)</a>
-					</div>
-					<input type="radio" name="LoginRadius_sharing_settings[sharingCount]" value="page" <?php echo !isset($loginRadiusSettings['sharingCount']) || $loginRadiusSettings['sharingCount'] == 'page' ? 'checked' : ''; ?>/> <?php _e("Page Level", 'LoginRadius') ?> <a style="text-decoration:none" href="javascript:void(0)" title="All the sharing interfaces at the home page will share the page/post url above/below which those are placed." >(?)</a>
+					<input type="radio" name="LoginRadius_sharing_settings[sharingCount]" value="website" <?php echo isset($loginRadiusSettings['sharingCount']) && $loginRadiusSettings['sharingCount'] == 'website' ? 'checked' : ''; ?>/> <?php _e("Page where all the social sharing interfaces are shown", 'LoginRadius') ?>
+					</div><br/>
+					<input type="radio" name="LoginRadius_sharing_settings[sharingCount]" value="page" <?php echo !isset($loginRadiusSettings['sharingCount']) || $loginRadiusSettings['sharingCount'] == 'page' ? 'checked' : ''; ?>/> <?php _e("Individual page associated with that Social sharing interface", 'LoginRadius') ?>
 					</td>
 					</tr>
 					</table>
@@ -660,7 +655,7 @@ function login_radius_sharing_option_page(){
 						<?php _e('Specify distance of vertical sharing interface from top (Leave empty for default behaviour)', 'LoginRadius'); ?>
 							<a style="text-decoration:none" href="javascript:void(0)" title="<?php _e("Enter a number (For example - 200). It will set the 'top' CSS attribute of the interface to the value specified. Increase in the number pushes interface towards bottom.", "LoginRadius") ?>">(?)</a>
 						</div>
-						<input style="width:100px" type="text" name="LoginRadius_sharing_settings[sharing_offset]" value="<?php echo (isset($loginRadiusSettings['sharing_offset']) && $loginRadiusSettings['sharing_offset'] != '') ? $loginRadiusSettings['sharing_offset'] : '' ?>" onkeyup="if(!loginRadiusSharingIsNumber(this.value.trim())){ document.getElementById('login_radius_offset_error').innerHTML = 'Please enter a valid number.'; }else{ document.getElementById('login_radius_offset_error').innerHTML = ''; } " />
+						<input style="width:100px" type="text" name="LoginRadius_sharing_settings[sharing_offset]" value="<?php echo (isset($loginRadiusSettings['sharing_offset']) && $loginRadiusSettings['sharing_offset'] != '') ? $loginRadiusSettings['sharing_offset'] : '' ?>" onkeyup="if(this.value.trim() != '' && !loginRadiusSharingIsNumber(this.value.trim())){ document.getElementById('login_radius_offset_error').innerHTML = 'Please enter a valid number.'; }else{ document.getElementById('login_radius_offset_error').innerHTML = ''; } " />
 						<div style="clear:both"></div>
 						<div id="login_radius_offset_error" style="color:#FF0000"></div>
 						<div class="loginRadiusBorder2"></div>
@@ -715,7 +710,7 @@ function login_radius_sharing_option_page(){
 								<li><a target="_blank" href="http://www.loginradius.com/loginradius/about"><?php _e('About LoginRadius', 'LoginRadius') ?></a></li>
 							</ul>
 							<ul style="float:left">
-								<li><a target="_blank" href="http://www.loginradius.com/product/sociallogin"><?php _e('LoginRadius Products', 'LoginRadius') ?></a></li>
+								<li><a target="_blank" href="https://www.loginradius.com/loginradius/product-overview"><?php _e('LoginRadius Products', 'LoginRadius') ?></a></li>
 								<li><a target="_blank" href="https://www.loginradius.com/loginradius-for-developers/loginRadius-cms"><?php _e('Social Plugins', 'LoginRadius') ?></a></li>
 								<li><a target="_blank" href="https://www.loginradius.com/loginradius-for-developers/loginRadius-sdks"><?php _e('Social SDKs', 'LoginRadius') ?></a></li>
 							</ul>

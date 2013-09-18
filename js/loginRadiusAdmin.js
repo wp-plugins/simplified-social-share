@@ -30,18 +30,20 @@ window.onload = function(){
 function loginRadiusToggleForm(val){
 	if(val == 'login'){
 		document.getElementById('lrsiteRow').style.display = 'none';
+		document.getElementById('lrSiteMessageRow').style.display = 'none';
 		document.getElementById('confirmPasswordRow').style.display = 'none';
-		document.getElementById('loginRadiusToggleFormLink').innerHTML = 'Register';
+		document.getElementById('loginRadiusToggleFormLink').innerHTML = 'New to LoginRadius, Register Now!';
 		document.getElementById('loginRadiusToggleFormLink').setAttribute('onclick', 'loginRadiusToggleForm("register")');
 		document.getElementById('loginRadiusSubmit').value = 'Login';
-		document.getElementById('loginRadiusFormTitle').innerHTML = 'Login to LoginRadius';
+		document.getElementById('loginRadiusFormTitle').innerHTML = 'Login to your LoginRadius Account to change settings as per your requirements!';
 	}else{
 		document.getElementById('lrsiteRow').style.display = 'table-row';
+		document.getElementById('lrSiteMessageRow').style.display = 'table-row';
 		document.getElementById('confirmPasswordRow').style.display = 'table-row';
 		document.getElementById('loginRadiusToggleFormLink').innerHTML = 'Already have an account?';
 		document.getElementById('loginRadiusToggleFormLink').setAttribute('onclick', 'loginRadiusToggleForm("login")');
 		document.getElementById('loginRadiusSubmit').value = 'Register';
-		document.getElementById('loginRadiusFormTitle').innerHTML = 'Register to LoginRadius';
+		document.getElementById('loginRadiusFormTitle').innerHTML = 'Register LoginRadius Account to change settings as per your requirements!';
 	}
 	document.getElementById('loginRadiusMessage').innerHTML = '';
 }

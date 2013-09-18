@@ -4,7 +4,7 @@ add_action('wp_enqueue_scripts', 'login_radius_sharing_get_sharing_code');
 $verticalInterfaceCount = 0;
 function login_radius_sharing_share_content($content){
 	global $post;
-	$lrMeta = get_post_meta($post->ID, '_login_radius_meta', true);
+	$lrMeta = get_post_meta($post->ID, '_login_radius_sharing_meta', true);
 	// if sharing disabled on this page/post, return content unaltered
 	if(isset($lrMeta['sharing']) && $lrMeta['sharing'] == 1 && !is_front_page()){
 		return $content;
@@ -32,9 +32,8 @@ function login_radius_sharing_share_content($content){
 			$loginRadiusHorizontalSharingDiv .= ' ></div>';
 		}
 		$horizontalDiv = "<div style='margin:0'><b>".ucfirst($loginRadiusSettings['LoginRadius_sharingTitle'])."</b></div>".$loginRadiusHorizontalSharingDiv;
-		
 		// show horizontal sharing		
-		if((isset( $loginRadiusSettings['horizontal_sharehome']) && is_front_page()) || ( isset( $loginRadiusSettings['horizontal_sharepost'] ) && is_single() ) || ( isset( $loginRadiusSettings['horizontal_sharepage'] ) && is_page() ) || ( isset( $loginRadiusSettings['horizontal_shareexcerpt'] ) && has_excerpt() ) || ( isset( $loginRadiusSettings['horizontal_sharearchive'] ) && is_archive() ) || ( isset( $loginRadiusSettings['horizontal_sharefeed'] ) && is_feed() ) ){	
+		if((isset( $loginRadiusSettings['horizontal_sharehome']) && is_front_page()) || ( isset( $loginRadiusSettings['horizontal_sharepost'] ) && (is_single() || $post -> post_type == 'post')) || ( isset( $loginRadiusSettings['horizontal_sharepage'] ) && is_page() ) || ( isset( $loginRadiusSettings['horizontal_shareexcerpt'] ) && has_excerpt() ) || ( isset( $loginRadiusSettings['horizontal_sharearchive'] ) && is_archive() ) || ( isset( $loginRadiusSettings['horizontal_sharefeed'] ) && is_feed() )){	
 			if(isset($loginRadiusSettings['horizontal_shareTop'] ) && isset($loginRadiusSettings['horizontal_shareBottom'])){
 				$content = $horizontalDiv.'<br/>'.$content.'<br/>'.$horizontalDiv;
 			}else{
@@ -50,7 +49,7 @@ function login_radius_sharing_share_content($content){
 	if(isset($loginRadiusSettings['vertical_shareEnable']) && $loginRadiusSettings['vertical_shareEnable'] == "1"){
 		$loginRadiusVerticalSharingDiv = '<div class="loginRadiusVerticalSharing"></div>';
 		// show vertical sharing	
-		if((isset( $loginRadiusSettings['vertical_sharehome']) && is_front_page()) || ( isset( $loginRadiusSettings['vertical_sharepost'] ) && is_single() ) || ( isset( $loginRadiusSettings['vertical_sharepage'] ) && is_page() ) || ( isset( $loginRadiusSettings['vertical_shareexcerpt'] ) && has_excerpt() ) || ( isset( $loginRadiusSettings['vertical_sharearchive'] ) && is_archive() ) || ( isset( $loginRadiusSettings['vertical_sharefeed'] ) && is_feed() ) ){	
+		if((isset( $loginRadiusSettings['vertical_sharehome']) && is_front_page()) || ( isset( $loginRadiusSettings['vertical_sharepost'] ) && (is_single() || $post -> post_type == 'post') ) || ( isset( $loginRadiusSettings['vertical_sharepage'] ) && is_page() ) || ( isset( $loginRadiusSettings['vertical_shareexcerpt'] ) && has_excerpt() ) || ( isset( $loginRadiusSettings['vertical_sharearchive'] ) && is_archive() ) || ( isset( $loginRadiusSettings['vertical_sharefeed'] ) && is_feed() ) ){	
 			if(is_front_page()){
 				global $verticalInterfaceCount;
 				if(current_filter() == 'the_content'){
