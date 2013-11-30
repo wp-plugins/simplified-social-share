@@ -12,6 +12,7 @@ function login_radius_sharing_validate_options($loginRadiusSettings){
  * Display options page.
  */ 
 function login_radius_sharing_option_page(){
+	global $loginRadiusIsBpActive;
 	$loginRadiusSettings = get_option('LoginRadius_sharing_settings');
 	?>
   	<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
@@ -277,7 +278,7 @@ function login_radius_sharing_option_page(){
 		
 		<fieldset style="width:25%; background-color: rgb(231, 255, 224); border: 1px solid rgb(191, 231, 176); padding-bottom:6px; height:180px; width:255px">
 		<div style="margin:5px 0">
-			<strong>Plugin Version:</strong> 1.7<br/>
+			<strong>Plugin Version:</strong> 1.8<br/>
 			<strong>Author:</strong> LoginRadius<br/>
 			<strong>Website:</strong> <a href="https://www.loginradius.com" target="_blank">www.loginradius.com</a> <br/>
 			<strong>Community:</strong> <a href="http://community.loginradius.com" target="_blank">community.loginradius.com</a> <br/>
@@ -538,11 +539,7 @@ function login_radius_sharing_option_page(){
 						<input type="checkbox" name="LoginRadius_sharing_settings[horizontal_sharepost]" value="1" <?php echo isset($loginRadiusSettings['horizontal_sharepost']) && $loginRadiusSettings['horizontal_sharepost'] == 1 ? 'checked' : '' ?>/> <?php _e ('Show on posts', 'LoginRadius'); ?> 
 						<br />
 						<input type="checkbox" name="LoginRadius_sharing_settings[horizontal_sharepage]" value="1" <?php echo isset($loginRadiusSettings['horizontal_sharepage']) && $loginRadiusSettings['horizontal_sharepage'] == 1 ? 'checked' : '' ?>/> <?php _e ('Show on pages', 'LoginRadius'); ?> <br /> 
-						<input type="checkbox" name="LoginRadius_sharing_settings[horizontal_shareexcerpt]" value="1" <?php checked('1', @$loginRadiusSettings['horizontal_shareexcerpt']); ?>/> <?php _e ('Show on post excerpts ', 'LoginRadius'); ?> <br /> 
-						<input type="checkbox" name="LoginRadius_sharing_settings[horizontal_sharearchive]" value="1" <?php checked('1', @$loginRadiusSettings['horizontal_sharearchive']); ?>/> <?php _e ('Show on archive pages', 'LoginRadius'); ?> 
-						<br />
-						<input type="checkbox" name="LoginRadius_sharing_settings[horizontal_sharefeed]" value="1" <?php checked('1', @$loginRadiusSettings['horizontal_sharefeed']); ?>/> <?php _e ('Show on feed', 'LoginRadius'); ?> 
-					
+						<input type="checkbox" name="LoginRadius_sharing_settings[horizontal_shareexcerpt]" value="1" <?php checked('1', @$loginRadiusSettings['horizontal_shareexcerpt']); ?>/> <?php _e ('Show on post excerpts ', 'LoginRadius'); ?>
 					</div>
 					</td>
 					</tr>
@@ -667,10 +664,7 @@ function login_radius_sharing_option_page(){
 						<input type="checkbox" name="LoginRadius_sharing_settings[vertical_sharepost]" value="1" <?php echo isset($loginRadiusSettings['vertical_sharepost']) && $loginRadiusSettings['vertical_sharepost'] == 1 ? 'checked' : '' ?>/> <?php _e ('Show on posts', 'LoginRadius'); ?> 
 						<br />
 						<input type="checkbox" name="LoginRadius_sharing_settings[vertical_sharepage]" value="1" <?php echo isset($loginRadiusSettings['vertical_sharepage']) && $loginRadiusSettings['vertical_sharepage'] == 1 ? 'checked' : '' ?>/> <?php _e ('Show on pages', 'LoginRadius'); ?> <br /> 
-						<input type="checkbox" name="LoginRadius_sharing_settings[vertical_shareexcerpt]" value="1" <?php checked('1', @$loginRadiusSettings['vertical_shareexcerpt']); ?>/> <?php _e ('Show on post excerpts ', 'LoginRadius'); ?> <br /> 
-						<input type="checkbox" name="LoginRadius_sharing_settings[vertical_sharearchive]" value="1" <?php checked('1', @$loginRadiusSettings['vertical_sharearchive']); ?>/> <?php _e ('Show on archive pages', 'LoginRadius'); ?> 
-						<br />
-						<input type="checkbox" name="LoginRadius_sharing_settings[vertical_sharefeed]" value="1" <?php checked('1', @$loginRadiusSettings['vertical_sharefeed']); ?>/> <?php _e ('Show on feed', 'LoginRadius'); ?>
+						<input type="checkbox" name="LoginRadius_sharing_settings[vertical_shareexcerpt]" value="1" <?php checked('1', @$loginRadiusSettings['vertical_shareexcerpt']); ?>/> <?php _e ('Show on post excerpts ', 'LoginRadius'); ?>
 						<div class="loginRadiusBorder2"></div>
 					</div>
 					</td>
@@ -693,6 +687,25 @@ function login_radius_sharing_option_page(){
 					</table>
 	
 					</div>
+					</div>
+					
+					<!-- Plugin deletion options -->
+					<div class="stuffbox">
+						<h3><label><?php _e('Plug-in deletion options', 'LoginRadius');?></label></h3>
+						<div class="inside">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0" class="form-table editcomment menu_content_table">
+						<tr>
+						<td>
+						<div class="loginRadiusQuestion">
+						<?php _e('Do you want to completely remove the plugin settings and options on plugin deletion (If you choose yes, then you will not be able to recover settings again)?', 'LoginRadius'); ?>
+						</div>
+						<input type="radio" name="LoginRadius_sharing_settings[delete_options]" value="1" <?php echo(!isset($loginRadiusSettings['delete_options']) || $loginRadiusSettings['delete_options'] == 1) ? "checked" : ""; ?> /> <?php _e('YES', 'LoginRadius') ?> <br />
+						<input type="radio" name="LoginRadius_sharing_settings[delete_options]" value="0" <?php echo (isset($loginRadiusSettings['delete_options']) && $loginRadiusSettings['delete_options'] == 0) ? "checked" : ""; ?>  /> <?php _e('NO', 'LoginRadius'); ?><br />
+						</td>
+						</tr>
+
+						</table>
+						</div>
 					</div>
 				</div>
 					<div class="menu_containt_div" id="tabs-3">

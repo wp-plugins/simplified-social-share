@@ -3,11 +3,12 @@
 Plugin Name:Simplified Social Sharing  
 Plugin URI: http://www.LoginRadius.com
 Description: Add Social Sharing to your WordPress website.
-Version: 1.7
+Version: 1.8
 Author: LoginRadius Team
 Author URI: http://www.LoginRadius.com
 License: GPL2+
 */
+$loginRadiusIsBpActive = false;
 require_once('LoginRadiusSDK.php');
 require_once('LoginRadius_function.php');
 require_once('LoginRadius_widget.php');
@@ -169,6 +170,7 @@ function login_radius_sharing_activation(){
 										   'vertical_sharepost' => '1',
 										   'vertical_sharepage' => '1',
 										   'sharing_offset' => '200',
+										   'delete_options' => '1',
 										));
 }
 register_activation_hook(__FILE__, 'login_radius_sharing_activation');
@@ -476,6 +478,17 @@ function login_radius_lr_login(){
 			   )
 			);
 		}else{
+			if(!isset($result[0] -> apikey)){
+				// error in login/registration
+				die(
+				   json_encode(
+					   array(
+						 'status' => 0,
+						 'message' => 'Unexpected error occurred' 
+					   )
+				   )
+				);
+			}
 			// if new user created at LR
 			if(isset($_POST['lrsite'])){
 				$loginRadiusSettings = get_option('LoginRadius_sharing_settings');
@@ -517,4 +530,10 @@ function login_radius_save_lr_site(){
 	die('error');
 }
 add_action('wp_ajax_login_radius_save_lr_site', 'login_radius_save_lr_site');
+
+function login_radius_sharing_bp_check(){
+    global $loginRadiusIsBpActive;
+	$loginRadiusIsBpActive = true;
+}
+add_action( 'bp_include', 'login_radius_sharing_bp_check' );
 ?>
