@@ -278,7 +278,7 @@ function login_radius_sharing_option_page(){
 		
 		<fieldset style="width:25%; background-color: rgb(231, 255, 224); border: 1px solid rgb(191, 231, 176); padding-bottom:6px; height:195px; width:255px">
 		<div style="margin:5px 0">
-			<strong>Plugin Version:</strong> 1.8<br/>
+			<strong>Plugin Version:</strong> 1.9<br/>
 			<strong>Author:</strong> LoginRadius<br/>
 			<strong>Website:</strong> <a href="https://www.loginradius.com" target="_blank">www.loginradius.com</a> <br/>
 			<strong>Community:</strong> <a href="http://community.loginradius.com" target="_blank">community.loginradius.com</a> <br/>
