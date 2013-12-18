@@ -266,7 +266,7 @@ function login_radius_sharing_option_page(){
 		<?php settings_fields('LoginRadius_sharing_setting_options'); ?>
 		<div class="header_div">
 		<h2>LoginRadius <?php _e('Simplified Social Sharing Settings', 'LoginRadius') ?></h2>
-		<fieldset style="margin-right:13px; height:176px; background-color:#EAF7FF; border-color:rgb(195, 239, 250); padding-bottom:10px; width:751px">
+		<fieldset style="margin-right:13px; height:190px; background-color:#EAF7FF; border-color:rgb(195, 239, 250); padding-bottom:10px; width:751px">
 		<h4 style="color:#000"><strong>Thank you for installing LoginRadius Simplified Social Share plugin!</strong></h4>
 		<p>
 			<a href="https://www.loginradius.com/">LoginRadius</a> provides <a target="_blank" href="https://www.loginradius.com/loginradius/product-overview#SocialLoginTab">Social Login</a>, <a target="_blank" href="https://www.loginradius.com/loginradius/product-overview#SocialSharingTab">Social Share</a>, <a target="_blank" href="https://www.loginradius.com/loginradius/product-overview#FriendsInviteTab">Friend Invite</a>, <a target="_blank" href="https://www.loginradius.com/loginradius/product-overview#UserProfileDataTab">User Social Profile Data</a>, <a target="_blank" href="https://www.loginradius.com/loginradius/product-overview#OnlineTab">User Profile Access</a>, <a target="_blank" href="https://www.loginradius.com/loginradius/product-overview#SingleSignOnTab">Single Sign-on</a> and <a target="_blank" href="https://www.loginradius.com/loginradius/product-overview#SocialAnalyticsTab">Social Analytics</a> as single Unified API.
@@ -276,7 +276,7 @@ function login_radius_sharing_option_page(){
 		</p>
 		</fieldset>
 		
-		<fieldset style="width:25%; background-color: rgb(231, 255, 224); border: 1px solid rgb(191, 231, 176); padding-bottom:6px; height:180px; width:255px">
+		<fieldset style="width:25%; background-color: rgb(231, 255, 224); border: 1px solid rgb(191, 231, 176); padding-bottom:6px; height:195px; width:255px">
 		<div style="margin:5px 0">
 			<strong>Plugin Version:</strong> 1.8<br/>
 			<strong>Author:</strong> LoginRadius<br/>
@@ -343,7 +343,7 @@ function login_radius_sharing_option_page(){
 						<td><div id="loginRadiusMessage"></div></td>
 					</tr>
 					<tr>
-						<td>
+						<td colspan='2'>
 						<a style="text-decoration:none" id="loginRadiusToggleFormLink" href="javascript:void(0)" onclick="loginRadiusToggleForm('login')"><?php _e('Already have an account?', 'LoginRadius') ?></a><br/>
 						<a style="text-decoration:none" target="_blank" href="https://www.loginradius.com/login/forgotten" onclick="loginRadiusToggleForm('login')"><?php _e('Forgot your password?', 'LoginRadius') ?></a>
 						</td>
@@ -360,9 +360,9 @@ function login_radius_sharing_option_page(){
 				<div class="menu_div" id="tabs">
 					<h2 class="nav-tab-wrapper" style="height:36px">
 					<ul>
-						<li style="margin-left:9px"><a style="margin:0" class="nav-tab" href="#tabs-1"><?php _e('API Settings', 'LoginRadius') ?></a></li>
-						<li><a style="margin:0" class="nav-tab" href="#tabs-2"><?php _e('Social Sharing', 'LoginRadius') ?></a></li>
-						<li style="float:right; margin-right:8px"><a style="margin:0" class="nav-tab" href="#tabs-3"><?php _e('Help', 'LoginRadius') ?></a></li>
+						<li style="margin-left:9px"><a style="margin:0; height:23px" class="nav-tab" href="#tabs-1"><?php _e('API Settings', 'LoginRadius') ?></a></li>
+						<li><a style="margin:0; height:23px" class="nav-tab" href="#tabs-2"><?php _e('Social Sharing', 'LoginRadius') ?></a></li>
+						<li style="float:right; margin-right:8px"><a style="margin:0; height:23px" class="nav-tab" href="#tabs-3"><?php _e('Help', 'LoginRadius') ?></a></li>
 					</ul>
 					</h2>
 				

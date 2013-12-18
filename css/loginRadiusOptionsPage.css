@@ -1,5 +1,8 @@
 @charset "utf-8";
 /* CSS Document */
+.form-table th, .form-table td{
+	padding:4px
+}
 .green:hover {
 	background: #f47c20;
 	border: #669E00 1px solid;
@@ -205,8 +208,8 @@ h2.nav-tab-wrapper > ul > li{
 }
 input[type="radio"]{
 	display: block;
-	float: left;
-	margin:3px 2px 0 0;
+	float: left !important;
+	margin: 0 2px 0 0 !important;
 }
 input[type="text"]{
 	float: left;
@@ -246,10 +249,12 @@ input[type="reset"]{
 	margin-right:10px
 }
 li.ui-tabs-active{
-	border-bottom-color: #fff;
-	margin-top: 1px;
+	border-bottom-color: #f1f1f1;
 	border-bottom-style: solid;
 	border-bottom-width: 1px;
+}
+li.ui-tabs-active a{
+	background-color: transparent
 }
 .submit a {
 	margin-left: 20px;
@@ -275,6 +280,9 @@ div.loginRadiusBorder{
 }
 div.menu_containt_div > .stuffbox{
 	width:763px
+}
+.stuffbox h3{
+	border-bottom: 1px solid #ccc
 }
 .lrsharing_spanwhite{
 	border-color: transparent transparent #fff;

@@ -3,7 +3,7 @@
 Plugin Name:Simplified Social Sharing  
 Plugin URI: http://www.LoginRadius.com
 Description: Add Social Sharing to your WordPress website.
-Version: 1.8
+Version: 1.9
 Author: LoginRadius Team
 Author URI: http://www.LoginRadius.com
 License: GPL2+
@@ -161,12 +161,12 @@ function login_radius_sharing_activation(){
 										   'horizontal_shareEnable' => '1',
 										   'horizontal_shareTop' => '1',
 										   'horizontal_shareBottom' => '1',
-										   'horizontal_sharehome' => '1',
+										   'horizontal_shareexcerpt' => '1',
 										   'horizontal_sharepost' => '1',
 										   'horizontal_sharepage' => '1',
 										   'vertical_shareEnable' => '1',
 										   'verticalSharing_theme' => 'counter_vertical',
-										   'vertical_sharehome' => '1',
+										   'vertical_shareexcerpt' => '1',
 										   'vertical_sharepost' => '1',
 										   'vertical_sharepage' => '1',
 										   'sharing_offset' => '200',
