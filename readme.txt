@@ -18,7 +18,7 @@ See the <a href="http://wordpress.org/plugins/simplified-social-share/screenshot
 = Social Sharing = Let users share your web contents on over 90 social networks resulting into dramatic increase in referral traffic.
 
 = Plugin Live Demo =
-* Wordpress: http://wordpress.loginradius.com
+* Wordpress: http://wordpress-social-plugin.loginradius.com/
 * BuddyPress: http://buddypress.loginradius.com
 * BBPress: http://bbpress.loginradius.com
 
