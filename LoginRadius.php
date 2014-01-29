@@ -3,34 +3,35 @@
 Plugin Name:Simplified Social Sharing  
 Plugin URI: http://www.LoginRadius.com
 Description: Add Social Sharing to your WordPress website.
-Version: 1.9
+Version: 2.0
 Author: LoginRadius Team
 Author URI: http://www.LoginRadius.com
 License: GPL2+
 */
 $loginRadiusIsBpActive = false;
-require_once('LoginRadiusSDK.php');
-require_once('LoginRadius_function.php');
-require_once('LoginRadius_widget.php');
-require_once('LoginRadius_admin.php');
+require_once( 'LoginRadiusSDK.php' );
+require_once( 'LoginRadius-function.php' );
+require_once( 'LoginRadius-widget.php' );
+require_once( 'LoginRadius-admin.php' );
+
 /**
  * Load the plugin's translated strings
  */
 function login_radius_sharing_init_locale(){
-	load_plugin_textdomain('LoginRadius', false, basename(dirname(__FILE__)) . '/i18n');
+	load_plugin_textdomain( 'LoginRadius', false, basename( dirname( __FILE__ )  )  . '/i18n' );
 }
-add_filter('init', 'login_radius_sharing_init_locale');
+add_filter( 'init', 'login_radius_sharing_init_locale' );
 
 /**
  * Add the LoginRadius menu in the left sidebar in the admin
  */
 function login_radius_sharing_admin_menu(){
-	$page = @add_menu_page('LoginRadiusSharing', '<b>LoginRadius</b>', 'manage_options', 'LoginRadiusSharing', 'login_radius_sharing_option_page', plugins_url('images/favicon.ico', __FILE__));
-	@add_action('admin_print_scripts-' . $page, 'login_radius_sharing_options_page_scripts');
-	@add_action('admin_print_styles-' . $page, 'login_radius_sharing_options_page_style');
-	@add_action('admin_print_styles-' . $page, 'login_radius_sharing_admin_css_custom_page');
+	$page = @add_menu_page( 'LoginRadiusSharing', '<b>LoginRadius</b>', 'manage_options', 'LoginRadiusSharing', 'login_radius_sharing_option_page', plugins_url( 'images/favicon.ico', __FILE__ )  );
+	@add_action( 'admin_print_scripts-' . $page, 'login_radius_sharing_options_page_scripts' );
+	@add_action( 'admin_print_styles-' . $page, 'login_radius_sharing_options_page_style' );
+	@add_action( 'admin_print_styles-' . $page, 'login_radius_sharing_admin_css_custom_page' );
 }
-@add_action('admin_menu', 'login_radius_sharing_admin_menu');
+@add_action( 'admin_menu', 'login_radius_sharing_admin_menu' );
 
 /**
  * Register LoginRadius_sharing_settings and its sanitization callback.
@@ -38,44 +39,43 @@ function login_radius_sharing_admin_menu(){
 function login_radius_sharing_meta_setup(){
 	global $post;
 	$postType = $post->post_type;
-	$lrMeta = get_post_meta($post->ID, '_login_radius_sharing_meta', true);
+	$lrMeta   = get_post_meta( $post->ID, '_login_radius_sharing_meta', true );
 	?>
 	<p>
 		<label for="login_radius_sharing">
-			<input type="checkbox" name="_login_radius_sharing_meta[sharing]" id="login_radius_sharing" value="1" <?php checked('1', @$lrMeta['sharing']); ?> />
-			<?php _e('Disable Social Sharing on this '.$postType, 'LoginRadius') ?>
+			<input type="checkbox" name="_login_radius_sharing_meta[sharing]" id="login_radius_sharing" value='1' <?php checked( '1', @$lrMeta['sharing'] ); ?> />
+			<?php _e( 'Disable Social Sharing on this '.$postType, 'LoginRadius' )  ?>
 		</label>
 	</p>
 	<?php
 	// custom nonce for verification later
-    echo '<input type="hidden" name="login_radius_sharing_meta_nonce" value="' . wp_create_nonce(__FILE__) . '" />';
-
+	echo '<input type="hidden" name="login_radius_sharing_meta_nonce" value="' . wp_create_nonce( __FILE__ )  . '" />';
 }
 
 /**
  * Save login radius meta fields.
  */
-function login_radius_sharing_save_meta($postId){
-    // make sure data came from our meta box
-    if (isset($_POST['login_radius_sharing_meta_nonce']) && !wp_verify_nonce($_POST['login_radius_sharing_meta_nonce'], __FILE__)){
+function login_radius_sharing_save_meta( $postId ) {
+	// make sure data came from our meta box
+	if ( ! isset( $_POST['login_radius_sharing_meta_nonce'] ) || ! wp_verify_nonce( $_POST['login_radius_sharing_meta_nonce'], __FILE__ ) ) {
 		return $postId;
- 	}
-    // check user permissions
-    if($_REQUEST['post_type'] == 'page'){
-        if(!current_user_can('edit_page', $postId)){
-			return $postId;
-    	}
-	}else{
-        if(!current_user_can('edit_post', $postId)){
-			return $postId;
-    	}
 	}
-	if(isset($_POST['_login_radius_sharing_meta'])){
+	// check user permissions
+	if ( $_REQUEST['post_type'] == 'page' ) {
+		if ( ! current_user_can( 'edit_page', $postId )  ) {
+			return $postId;
+		}
+	}else {
+		if ( ! current_user_can( 'edit_post', $postId )  ) {
+			return $postId;
+		}
+	}
+	if ( isset( $_POST['_login_radius_sharing_meta'] )  ) {
 		$newData = $_POST['_login_radius_sharing_meta'];
-    }else{
-		$newData = 0;
+	}else {
+		$newData = array( 'sharing' => 0 );
 	}
-	update_post_meta($postId, '_login_radius_sharing_meta', $newData);
+	update_post_meta( $postId, '_login_radius_sharing_meta', $newData );
 	return $postId;
 }
 
@@ -83,107 +83,106 @@ function login_radius_sharing_save_meta($postId){
  * Register LoginRadius_sharing_settings and its sanitization callback. Add Login Radius meta box to pages and posts.
  */
 function login_radius_sharing_options_init(){
-	register_setting('LoginRadius_sharing_setting_options', 'LoginRadius_sharing_settings', 'login_radius_sharing_validate_options');
+	register_setting( 'LoginRadius_sharing_setting_options', 'LoginRadius_sharing_settings', 'login_radius_sharing_validate_options' );
 	// show sharing meta fields on pages and posts
-	foreach(array('post', 'page') as $type){
-        add_meta_box('login_radius_meta', 'LoginRadius', 'login_radius_sharing_meta_setup', $type);
-    }
-    // add a callback function to save any data a user enters in
-    add_action('save_post', 'login_radius_sharing_save_meta');
+	foreach ( array( 'post', 'page' )  as $type ) {
+		add_meta_box( 'login_radius_meta', 'LoginRadius', 'login_radius_sharing_meta_setup', $type );
+	}
+	// add a callback function to save any data a user enters in
+	add_action( 'save_post', 'login_radius_sharing_save_meta' );
 }
-add_action('admin_init', 'login_radius_sharing_options_init');
+add_action( 'admin_init', 'login_radius_sharing_options_init' );
 
 /**
  * Get wordpress version.
  */
 function login_radius_sharing_get_wp_version(){
-	return (float)substr(get_bloginfo('version'), 0, 3);
+	return ( float ) substr( get_bloginfo( 'version' ) , 0, 3 );
 }
 
 /**
  * Add js for enabling preview.
  */
 function login_radius_sharing_options_page_scripts(){
-  $script = (login_radius_sharing_get_wp_version() >= 3.2) ? 'loginradius_options-page32.js' : 'loginradius_options-page29.js';
-  $scriptLocation = apply_filters('LoginRadius_files_uri', plugins_url('js/' . $script.'?t=4.0.0', __FILE__));
-  wp_enqueue_script('LoginRadius_sharing_options_page_script', $scriptLocation, array('jquery-ui-tabs', 'thickbox'));
-  wp_enqueue_script('LoginRadius_sharing_options_page_script2', plugins_url('js/loginRadiusAdmin.js?t=4.0.0', __FILE__), array(), false, false);
+	$script = ( login_radius_sharing_get_wp_version() >= 3.2 )  ? 'loginradius-options-page32.js' : 'loginradius-options-page29.js';
+	$scriptLocation = apply_filters( 'LoginRadius_files_uri', plugins_url( 'js/' . $script.'?t=4.0.0', __FILE__ )  );
+	wp_enqueue_script( 'LoginRadius_sharing_options_page_script', $scriptLocation, array( 'jquery-ui-tabs', 'thickbox' )  );
+	wp_enqueue_script( 'LoginRadius_sharing_options_page_script2', plugins_url( 'js/loginRadiusAdmin.js?t=4.0.0', __FILE__ ) , array(), false, false );
 }
 
 /**
  * Add option Settings css.
  */
 function login_radius_sharing_options_page_style(){
-	?>
-	<!--[if IE]>
-		<link href="<?php echo plugins_url('css/loginRadiusOptionsPageIE.css', __FILE__) ?>" rel="stylesheet" type="text/css" />
-	<![endif]-->
-	<?php
-	$styleLocation = apply_filters('LoginRadius_files_uri', plugins_url('css/loginRadiusOptionsPage.css', __FILE__));
-	wp_enqueue_style('login_radius_sharing_options_page_style', $styleLocation.'?t=4.0.0');
-	wp_enqueue_style('thickbox');
+	$styleLocation = apply_filters( 'LoginRadius_files_uri', plugins_url( 'css/loginRadiusOptionsPage.css', __FILE__ )  );
+	wp_enqueue_style( 'login_radius_sharing_options_page_style', $styleLocation.'?t=4.0.0' );
+	wp_enqueue_style( 'thickbox' );
 }
 
 /**
  * Add custom page Settings css.
  */
 function login_radius_sharing_admin_css_custom_page() {
-	wp_register_style('LoginRadius-sharing-plugin-page-css', plugins_url('css/loginRadiusStyle.css', __FILE__), array(), '4.0.0', 'all');
-	wp_enqueue_style('LoginRadius-sharing-plugin-page-css');
+	wp_register_style( 'LoginRadius-sharing-plugin-page-css', plugins_url( 'css/loginRadiusStyle.css', __FILE__ ) , array(), '4.0.0', 'all' );
+	wp_enqueue_style( 'LoginRadius-sharing-plugin-page-css' );
 }
 
 /**
  * Add a settings link to the Plugins page, so people can go straight from the plugin page to the
  * settings page.
  */
-function login_radius_sharing_filter_plugin_actions($links, $file){
-    static $thisPlugin;
-    if(!$thisPlugin){
-        $thisPlugin = plugin_basename(__FILE__);
+function login_radius_sharing_filter_plugin_actions( $links, $file ) {
+	static $thisPlugin;
+	if ( ! $thisPlugin ) {
+		$thisPlugin = plugin_basename( __FILE__ );
 	}
-    if ($file == $thisPlugin){
-        $settingsLink = '<a href="options-general.php?page=LoginRadiusSharing">' . __('Settings') . '</a>';
-        array_unshift($links, $settingsLink); // before other links
-    }
-    return $links;
+	if ( $file == $thisPlugin ) {
+		$settingsLink = '<a href="options-general.php?page=LoginRadiusSharing">' . __( 'Settings' )  . '</a>';
+		array_unshift( $links, $settingsLink ); // before other links
+	}
+	return $links;
 }
-add_filter('plugin_action_links', 'login_radius_sharing_filter_plugin_actions', 10, 2);
+add_filter( 'plugin_action_links', 'login_radius_sharing_filter_plugin_actions', 10, 2 );
 
 /**
  * Set Default options when plugin is activated first time.
  */
 function login_radius_sharing_activation(){
-    global $wpdb;
-    // Set plugin default options
-    add_option('LoginRadius_sharing_settings', array(
-										   'LoginRadius_sharingTheme' => 'horizontal',
-										   'LoginRadius_counterTheme' => 'horizontal',
-										   'horizontal_shareEnable' => '1',
-										   'horizontal_shareTop' => '1',
-										   'horizontal_shareBottom' => '1',
-										   'horizontal_shareexcerpt' => '1',
-										   'horizontal_sharepost' => '1',
-										   'horizontal_sharepage' => '1',
-										   'vertical_shareEnable' => '1',
-										   'verticalSharing_theme' => 'counter_vertical',
-										   'vertical_shareexcerpt' => '1',
-										   'vertical_sharepost' => '1',
-										   'vertical_sharepage' => '1',
-										   'sharing_offset' => '200',
-										   'delete_options' => '1',
-										));
+	global $wpdb;
+	// Set plugin default options
+	$options = array( 
+				'LoginRadius_sharingTheme' => 'horizontal',
+				'LoginRadius_counterTheme' => 'horizontal',
+				'horizontal_shareEnable' => '1',
+				'horizontal_shareTop' => '1',
+				'horizontal_shareBottom' => '1',
+				'horizontal_shareexcerpt' => '1',
+				'horizontal_sharepost' => '1',
+				'horizontal_sharepage' => '1',
+				'vertical_shareEnable' => '1',
+				'verticalSharing_theme' => 'counter_vertical',
+				'vertical_shareexcerpt' => '1',
+				'vertical_sharepost' => '1',
+				'vertical_sharepage' => '1',
+				'sharing_offset' => '200',
+				'delete_options' => '1',
+				'scripts_in_footer' => '0',
+			);
+	add_option( 'LoginRadius_sharing_settings', $options );
 }
-register_activation_hook(__FILE__, 'login_radius_sharing_activation');
+register_activation_hook( __FILE__, 'login_radius_sharing_activation' );
+
 /**
  * send post-registration emails to newly registered user at LR.
  */
-function login_radius_send_registration_emails($email){
+function login_radius_send_registration_emails( $email ) {
 	global $user_ID;
-	$adminName = get_user_meta($user_ID, 'first_name', true);
+	$adminName = get_user_meta( $user_ID, 'first_name', true );
 	// specify headers
 	$headers = "MIME-Version: 1.0\n" .
-	"Content-Type: text/html; charset=\"" .
-	get_option('blog_charset') . "\"\n";
+	"Content-Type: text/html; charset='" .
+	get_option( 'blog_charset' )  . "\"\n" . 
+	'From: <no-reply@loginradius.com>';
 	// send welcome emails
 	$loginRadiusSubject = 'Welcome to LoginRadius, leading social infrastructure provider';
 	$loginRadiusMessage = '<html>
@@ -234,7 +233,7 @@ function login_radius_send_registration_emails($email){
 			  <td bgcolor="#ffffff"><table width="600" cellpadding="0" cellspacing="0" border="0" style="font-size: 11px;">
 				  <tr>
 					<td align="center">
-					<p style="line-height: 18px; color: rgb(0, 0, 0); border-top: 1px solid rgb(215, 225, 238); padding-top: 20px; font-size: 12px;margin: 0px;">LoginRadius is <strong>Canada\'s Top 50 Startup </strong><br/>
+					<p style="line-height: 18px; color: rgb( 0, 0, 0 ); border-top: 1px solid rgb( 215, 225, 238 ); padding-top: 20px; font-size: 12px;margin: 0px;">LoginRadius is <strong>Canada\'s Top 50 Startup </strong><br/>
 						Partner with<strong> Mozilla, Microsoft, DynDNS, X-Cart </strong></b></p></td>
 				  </tr>
 				</table></td>
@@ -244,7 +243,7 @@ function login_radius_send_registration_emails($email){
 				  <tr>
 					<td align="center" style="padding-top:5px;"><table cellpadding="0" cellspacing="0" border="0">
 						<tr>
-						  <td><p style="line-height: 18px; color: rgb(0, 0, 0); font-size: 12px;margin: 0px; padding: 0px;"><strong>Connect to us :</strong> </p></td>
+						  <td><p style="line-height: 18px; color: rgb( 0, 0, 0 ); font-size: 12px;margin: 0px; padding: 0px;"><strong>Connect to us :</strong> </p></td>
 						  <td  style="padding-left:5px;"><a href="http://blog.LoginRadius.com"  target="_blank"><img src="https://www.loginradius.com/cdn/content/images/blog.png" border="0" alt="Blog" ></a></td>
 						  <td  style="padding-left:5px;"><a href="https://www.facebook.com/pages/LoginRadius/119745918110130" target="_blank"><img src="https://www.loginradius.com/cdn/content/images/facebook.png" border="0" alt="Facebook" ></a></td>
 						  <td  style="padding-left:5px;"><a href="https://plus.google.com/114515662991809002122/" target="_blank"><img src="https://www.loginradius.com/cdn/content/images/googleplus.png" border="0" alt="Google Plus" ></a></td>
@@ -265,7 +264,7 @@ function login_radius_send_registration_emails($email){
 	</table>
 	</body>
 	</html>';
-		wp_mail($email, $loginRadiusSubject, $loginRadiusMessage, $headers);
+		wp_mail( $email, $loginRadiusSubject, $loginRadiusMessage, $headers );
 		$loginRadiusSubject = 'Getting started with LoginRadius - how to integrate social login';
 		$loginRadiusMessage = '<html>
 <body style="margin: 0; padding: 0; background: #E3EEFA;">
@@ -303,8 +302,8 @@ function login_radius_send_registration_emails($email){
 		  <p style="color:#000; font-size:15px;margin: 0px; padding: 0px; "> <strong>How does LoginRadius Support work? </strong> </p>
             <ul>
               <li style="color:#000; font-size:15px;">You can access &amp; search all of our help documents at our <a href="http://support.loginradius.com/" target="_blank">Support Centre.</a></li>
-              <li style="color:#000; font-size:15px; padding-top: 7px;">For VIP customers, we provide <a href="http://support.loginradius.com/" target="_blank">24/7 email support.</a> (Click on \'Email Us\')</li>
-              <li style="color:#000; font-size:15px; padding-top: 7px;">For Basic (FREE) customers, we have a <a href="http://community.loginradius.com/" target="_blank">LoginRadius Developer Community</a>.</li>
+              <li style="color:#000; font-size:15px; padding-top: 7px;">For VIP customers, we provide <a href="http://support.loginradius.com/" target="_blank">24/7 email support.</a> ( Click on \'Email Us\' ) </li>
+              <li style="color:#000; font-size:15px; padding-top: 7px;">For Basic ( FREE )  customers, we have a <a href="http://community.loginradius.com/" target="_blank">LoginRadius Developer Community</a>.</li>
             </ul></td>
         </tr>
         <tr>
@@ -342,7 +341,7 @@ function login_radius_send_registration_emails($email){
 		  <td bgcolor="#ffffff"><table width="600" cellpadding="0" cellspacing="0" border="0" style="font-size: 11px;">
 			  <tr>
 				<td align="center">
-				<p style="line-height: 18px; color: rgb(0, 0, 0); border-top: 1px solid rgb(215, 225, 238); padding-top: 20px; font-size: 12px;margin: 0px;">LoginRadius is among <strong>Canada\'s Top 50 Startup </strong><br/>
+				<p style="line-height: 18px; color: rgb( 0, 0, 0 ); border-top: 1px solid rgb( 215, 225, 238 ); padding-top: 20px; font-size: 12px;margin: 0px;">LoginRadius is among <strong>Canada\'s Top 50 Startup </strong><br/>
 					Partner with<strong> Mozilla, Microsoft, DynDNS, X-Cart </strong></b></p></td>
 			  </tr>
 			</table></td>
@@ -352,7 +351,7 @@ function login_radius_send_registration_emails($email){
 			  <tr>
 				<td align="center" style="padding-top:5px;"><table cellpadding="0" cellspacing="0" border="0">
 					<tr>
-					  <td><p style="line-height: 18px; color: rgb(0, 0, 0); font-size: 12px;margin: 0px; padding: 0px;"><strong>Connect to us :</strong> </p></td>
+					  <td><p style="line-height: 18px; color: rgb( 0, 0, 0 ); font-size: 12px;margin: 0px; padding: 0px;"><strong>Connect to us :</strong> </p></td>
 					  <td  style="padding-left:5px;"><a href="http://blog.LoginRadius.com"  target="_blank"><img src="https://www.loginradius.com/cdn/content/images/blog.png" border="0" alt="Blog" ></a></td>
 					  <td  style="padding-left:5px;"><a href="https://www.facebook.com/pages/LoginRadius/119745918110130" target="_blank"><img src="https://www.loginradius.com/cdn/content/images/facebook.png" border="0" alt="Facebook" ></a></td>
 					  <td  style="padding-left:5px;"><a href="https://plus.google.com/114515662991809002122/" target="_blank"><img src="https://www.loginradius.com/cdn/content/images/googleplus.png" border="0" alt="Google Plus" ></a></td>
@@ -371,169 +370,106 @@ function login_radius_send_registration_emails($email){
 		</table>
 	</body>
 	</html>';
-	wp_mail($email, $loginRadiusSubject, $loginRadiusMessage, $headers);
+	wp_mail( $email, $loginRadiusSubject, $loginRadiusMessage, $headers );
 }
+
 /**
  * call LR api to login/register user.
  */
 function login_radius_lr_login(){
 	$loginRadiusObject = new LoginRadiusSharing();
-	$method = "";
+	$method = '';
+	$ajaxResponse = array();
+	
 	// api connection handler detection
-	if(in_array('curl', get_loaded_extensions())){
-		$response = $loginRadiusObject->login_radius_check_connection($method = "curl");
-		if($response == "service connection timeout" || $response == "timeout"){
-			die(
-			   json_encode(
-			   	   array(
-				   	 'status' => 0,
-				   	 'message' => 'Uh oh, looks like something went wrong. Try again in a sec!'
-				   )
-			   )
-			);
-		}elseif($response == "connection error"){
-			die(
-			   json_encode(
-			   	   array(
-				   	 'status' => 0,
-				   	 'message' => 'Problem in communicating LoginRadius API. Please check if one of the API Connection method mentioned above is working.'
-				   )
-			   )
-			);
+	if ( in_array( 'curl', get_loaded_extensions() )  ) {
+		$response = $loginRadiusObject->login_radius_check_connection( $method = 'curl' );
+		if ( $response == 'service connection timeout' || $response == 'timeout' ) {
+			$ajaxResponse['status']  = 0;
+			$ajaxResponse['message'] = 'Uh oh, looks like something went wrong. Try again in a sec!';
+			login_radius_sharing_ajax_response( $ajaxResponse );
+		}elseif ( $response == 'connection error' ) {
+			$ajaxResponse['status']  = 0;
+			$ajaxResponse['message'] = 'Problem in communicating LoginRadius API. Please check if one of the API Connection method mentioned above is working';
+			login_radius_sharing_ajax_response( $ajaxResponse );
 		}
-	}elseif(ini_get('allow_url_fopen') == 1){
-		$response = $loginRadiusObject->login_radius_check_connection($method = "fopen");
-		if($response == "service connection timeout" || $response == "timeout"){
-			die(
-			   json_encode(
-			   	   array(
-				   	 'status' => 0,
-				   	 'message' => 'Uh oh, looks like something went wrong. Try again in a sec!'
-				   )
-			   )
-			);
-		}elseif($response == "connection error"){
-			die(
-			   json_encode(
-			   	   array(
-				   	 'status' => 0,
-				   	 'message' => 'Problem in communicating LoginRadius API. Please check if one of the API Connection method mentioned above is working.'
-				   )
-			   )
-			);
+	}elseif ( ini_get( 'allow_url_fopen' ) == 1 ) {
+		$response = $loginRadiusObject->login_radius_check_connection( $method = 'fopen' );
+		if ( $response == 'service connection timeout' || $response == 'timeout' ) {
+			$ajaxResponse['status']  = 0;
+			$ajaxResponse['message'] = 'Uh oh, looks like something went wrong. Try again in a sec!';
+			login_radius_sharing_ajax_response( $ajaxResponse );
+		}elseif ( $response == 'connection error' ) {
+			$ajaxResponse['status']  = 0;
+			$ajaxResponse['message'] = 'Problem in communicating LoginRadius API. Please check if one of the API Connection method mentioned above is working.';
+			login_radius_sharing_ajax_response( $ajaxResponse );
 		}
-	}else{
-		die(
-		   json_encode(
-			   array(
-				 'status' => 0,
-				 'message' => 'Please check your php.ini settings to enable CURL or FSOCKOPEN'
-			   )
-		   )
-		);
+	}else {
+		$ajaxResponse['status']  = 0;
+		$ajaxResponse['message'] = 'Please check your php.ini settings to enable CURL or FSOCKOPEN';
+		login_radius_sharing_ajax_response( $ajaxResponse );
 	}
 	// call LR login/register API
-	if(isset($_POST['action'])){
+	if ( isset( $_POST['action'] )  ) {
 		// if any value posted is blank, halt
-		foreach($_POST as $value){
-			if(trim($value) == ""){
-				die(
-				   json_encode(
-					   array(
-						 'status' => 0,
-						 'message' => 'Unexpected error occurred'
-					   )
-				   )
-				);
+		foreach ( $_POST as $value ) {
+			if ( trim( $value ) == '' ) {
+				$ajaxResponse['status']  = 0;
+				$ajaxResponse['message'] = 'Unexpected error occurred';
+				login_radius_sharing_ajax_response( $ajaxResponse );
 			}
 		}
-		if(isset($_POST['lrsite'])){
+		if ( isset( $_POST['lrsite'] )  ) {
 			$append = 'create';
-		}else{
+		}else {
 			$append = 'login';
 		}
-		$queryString = array(
-			'UserName' => trim($_POST["UserName"]),
-			'password' => trim($_POST["password"]),
-			'ip' => $_SERVER["REMOTE_ADDR"],
+		$queryString = array( 
+			'UserName' => trim( $_POST['UserName'] ),
+			'password' => trim( $_POST['password'] ),
+			'ip' => $_SERVER['REMOTE_ADDR'],
 			'Url' => site_url(),
-			'Useragent' => $_SERVER["HTTP_USER_AGENT"],
-			'Technology' => 'Wordpress'
+			'Useragent' => $_SERVER['HTTP_USER_AGENT'],
+			'Technology' => 'Wordpress',
 		);
 		// append LR site name
-		if(isset($_POST['lrsite'])){
-			$queryString['AppName'] = trim($_POST['lrsite']);
+		if ( isset( $_POST['lrsite'] )  ) {
+			$queryString['AppName'] = trim( $_POST['lrsite'] );
 		}
-		$apiEndpoint = 'https://www.loginradius.com/api/v1/user.'.$append.'?'.http_build_query($queryString);
+		$apiEndpoint = 'https://www.loginradius.com/api/v1/user.'.$append.'?'.http_build_query( $queryString );
 		// call LR api function
-		$result = $loginRadiusObject -> login_radius_lr_login($apiEndpoint, $method);
-		if(isset($result -> errorCode)){
+		$result = $loginRadiusObject -> login_radius_lr_login( $apiEndpoint, $method );
+		if ( isset( $result -> errorCode )  ) {
 			// error in login/registration
-			die(
-			   json_encode(
-				   array(
-					 'status' => 0,
-					 'message' => $result -> message 
-				   )
-			   )
-			);
-		}else{
-			if(!isset($result[0] -> apikey)){
+			$ajaxResponse['status']  = 0;
+			$ajaxResponse['message'] = $result -> message;
+			login_radius_sharing_ajax_response( $ajaxResponse );
+		}else {
+			if ( ! isset( $result[0] -> apikey )  ) {
 				// error in login/registration
-				die(
-				   json_encode(
-					   array(
-						 'status' => 0,
-						 'message' => 'Unexpected error occurred' 
-					   )
-				   )
-				);
+				$ajaxResponse['status']  = 0;
+				$ajaxResponse['message'] = 'Unexpected error occurred';
+				login_radius_sharing_ajax_response( $ajaxResponse );
 			}
 			// if new user created at LR
-			if(isset($_POST['lrsite'])){
-				$loginRadiusSettings = get_option('LoginRadius_sharing_settings');
+			if ( isset( $_POST['lrsite'] )  ) {
+				$loginRadiusSettings = get_option( 'LoginRadius_sharing_settings' );
 				$loginRadiusSettings['LoginRadius_apikey'] = $result[0] -> apikey;
-				update_option('LoginRadius_sharing_settings', $loginRadiusSettings);
+				update_option( 'LoginRadius_sharing_settings', $loginRadiusSettings );
 				// send post registration emails
-				login_radius_send_registration_emails(trim($_POST["UserName"]));
-				die(
-				   json_encode(
-					   array(
-						 'status' => 1,
-						 'message' => 'registration successful'
-					   )
-				   )
-				);
-			}else{									// user login at LR
+				login_radius_send_registration_emails( trim( $_POST['UserName'] )  );
+				$ajaxResponse['status']  = 1;
+				$ajaxResponse['message'] = 'registration successful';
+				login_radius_sharing_ajax_response( $ajaxResponse );
+			}else {									// user login at LR
 				// show APPs in admin
-				die(
-				   json_encode(
-					   array(
-						 'status' => 1,
-						 'message' => 'login successful',
-						 'result' => $result
-					   )
-				   )
-				);
+				$ajaxResponse['status']  = 1;
+				$ajaxResponse['message'] = 'login successful';
+				$ajaxResponse['result']  = $result;
+				login_radius_sharing_ajax_response( $ajaxResponse );
 			}
 		}
 	}
 }
-add_action('wp_ajax_login_radius_lr_login', 'login_radius_lr_login');
-function login_radius_save_lr_site(){
-	$loginRadiusSettings = get_option('LoginRadius_sharing_settings');
-	if(isset($_POST['apikey']) && trim($_POST['apikey']) != ""){
-		$loginRadiusSettings['LoginRadius_apikey'] = trim($_POST['apikey']);
-		update_option('LoginRadius_sharing_settings', $loginRadiusSettings);
-		die('success');
-	}
-	die('error');
-}
-add_action('wp_ajax_login_radius_save_lr_site', 'login_radius_save_lr_site');
-
-function login_radius_sharing_bp_check(){
-    global $loginRadiusIsBpActive;
-	$loginRadiusIsBpActive = true;
-}
-add_action( 'bp_include', 'login_radius_sharing_bp_check' );
+add_action( 'wp_ajax_login_radius_lr_login', 'login_radius_lr_login' );
 ?>
