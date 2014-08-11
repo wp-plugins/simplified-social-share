@@ -17,10 +17,8 @@ See the <a href="http://wordpress.org/plugins/simplified-social-share/screenshot
 
 = Social Sharing = Let users share your web contents on over 90 social networks resulting into dramatic increase in referral traffic.
 
-= Plugin Live Demo =
-* Wordpress: http://wordpress-social-plugin.loginradius.com/
-* BuddyPress: http://buddypress.loginradius.com
-* BBPress: http://bbpress.loginradius.com
+= Live Demo =
+http://demo.loginradius.com
 
 = Step-by-step installation documents =
 * <a href="http://support.loginradius.com/hc/en-us/articles/201994523-Wordpress-Social-Sharing-instructions" target="_blank">WordPress Social Sharing installation and configuration</a>
@@ -51,11 +49,8 @@ Learn more about our VIP packages <a href="http://www.loginradius.com/pricing" t
 We also have similar social plugins for Joomla, Drupal, Magento, PrestaShop, Vanilla Forum, osCommerce, Zen Cart, X-cart, vBulletin, BlogEngine and DotNetNuke! <a href="http://www.loginradius.com/developers#cms-plugins" target="_blank">Learn more</a>.
 
 = Important links =
-* WordPress live demo: http://wordpress-social-plugin.loginradius.com/
-* BuddyPress live demo: http://buddypress-social-plugin.loginradius.com/
-* BBPress live demo: http://bbpress-social-plugin.loginradius.com/
 * LoginRadius website: http://www.loginradius.com
-* Other live demo: http://demo.loginradius.com/
+* Live demo: http://demo.loginradius.com/
 * Blog: http://blog.loginradius.com
 * Our video: http://www.youtube.com/loginradius
 * Press/Media page: http://www.loginradius.com/company#press
@@ -94,12 +89,6 @@ Social sharing allows users to share your web content on his/her social networks
 
 = How much do you charge for the plugin? =
 Our plugin is FREE to download and feel free to use it on your WordPress, BuddyPress, bbPress and any other WP based systems. For advanced features, enterprise level support and custom solutions, we offer premium packages as well.
-
-= Do you have a live demo site? =
-Yes, we have three live demo sites:<br />
-1. For WordPress: http://wordpress-social-plugin.loginradius.com/ <br />
-2. For BuddyPress: http://buddypress-social-plugin.loginradius.com/ <br />
-3. For bbPress:  http://bbpress-social-plugin.loginradius.com/ <br />
 
 = Can you help me set up Social Sharing on my website? =
 Yes, the LoginRadius Team can assist you with implementing Social Sharing. Please contact us <a href="http://www.loginradius.com/contact" target="_blank">here</a> and one of our experts will get back to you.
