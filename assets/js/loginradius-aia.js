@@ -179,7 +179,7 @@ LoginRadiusAIA = (function (lr, doc) {
                             if(typeof schema[i].value != 'undefined'){
                                 elem.value=schema[i].value;
                                 if(schema[i].name == 'emailid' && name != 'login'){
-                                    elem.disabled = true;
+                                    elem.disabled = false;
                                 }
                             }
                             break;
@@ -295,9 +295,6 @@ LoginRadiusAIA = (function (lr, doc) {
 
 
     function login(containerId, onSuccess, onError) {
-        if (typeof (aiaOptions.Emailid) != 'undefined') {
-            lraia.LoginFormSchema[0].value = aiaOptions.Emailid;
-        }
         createForm(lraia.LoginFormSchema, "login", containerId, 'Login', function (data) {
             lr.util.jsonpCall(apidomain + "api/v2/user/login?" + data, function (regResponse) {
                 if (regResponse.errorCode) {
@@ -311,14 +308,27 @@ LoginRadiusAIA = (function (lr, doc) {
         });
     };
 
+    function isNumeric(n) {
+      return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+
     function registration(containerId, onSuccess, onError) {
-        lr.util.addJs("http://www.google.com/recaptcha/api/js/recaptcha_ajax.js");
+        lr.util.addJs("https://www.google.com/recaptcha/api/js/recaptcha_ajax.js");
 
         if (typeof (aiaOptions.website) != "undefined") {
             lraia.RegistrationFormSchema[4].value = aiaOptions.website;
             var pathArray = aiaOptions.website.split('/');
             var urlOb = urlData(aiaOptions.website);
-            lraia.RegistrationFormSchema[3].value = urlOb.maindomain;
+            if(!isNumeric(urlOb.maindomain)){
+                lraia.RegistrationFormSchema[3].value = urlOb.maindomain;
+            }else{
+                if( aiaOptions.siteName != "undefined" ){
+                    aiaOptions.siteName = aiaOptions.siteName.replace(/\s/g, '-');
+                    aiaOptions.siteName = aiaOptions.siteName.substring(0, 15);
+                    lraia.RegistrationFormSchema[3].value = aiaOptions.siteName;
+                }
+            }
+            
         }
 
         if (typeof (aiaOptions.WebTechnology) != "undefined") {
@@ -329,7 +339,7 @@ LoginRadiusAIA = (function (lr, doc) {
             lraia.RegistrationFormSchema[0].disabled=true;
         }
 
-        createForm(lraia.RegistrationFormSchema, "registration", containerId, 'Register', function (data) {
+        createForm(lraia.RegistrationFormSchema, "registration", containerId, 'Activate', function (data) {
             lr.util.jsonpCall(apidomain + "api/v2/user/registration?" + data, function (regResponse) {
                 if (regResponse.errorCode) {
                     Recaptcha.reload();
@@ -367,29 +377,23 @@ LoginRadiusAIA = (function (lr, doc) {
 
     lraia.init = function (options, action, onSuccess, onError, containerId) {
         aiaOptions = options || {};
-
-
         initModuleSelector(action, containerId, onSuccess, onError);
-
-
-
-
     };
 
     lraia.RegistrationFormSchema = [{
         type: "string",
         name: "emailid",
-        display: "Email",
+        display: "",
         rules: "required|valid_email",
         permission: "r",
-        placeholder:"email"
+        placeholder:"Email"
     }, {
         type: "hidden",
         name: "password",
         display: "Password",
         rules: "",
         permission: "r",
-        placeholder:"password"
+        placeholder:"Password"
     }, {
         type: "hidden",
         name: "confirmpassword",
@@ -398,9 +402,9 @@ LoginRadiusAIA = (function (lr, doc) {
         permission: "r",
         placeholder:"Confirm Password"
     }, {
-        type: "string",
+        type: "hidden",
         name: "appname",
-        display: "LoginRadius Site Name",
+        display: "",
         rules: "required",
         permission: "w",
         placeholder:"[a-z][0-9] and [-] allowed. Minimum 4 characters"
@@ -424,7 +428,7 @@ LoginRadiusAIA = (function (lr, doc) {
         {
             type: 'captcha',
             name: 'recaptcha_response_field',
-            html: '<div id="recaptcha_widget" style="display:none;" class="recaptcha_widget"><div id="recaptcha_image"  style="margin-bottom: 5px;"></div><div class="recaptcha_only_if_incorrect_sol" style="color:red">Incorrect. Please try again.</div><div class="recaptcha_input"><label class="recaptcha_only_if_image" style = "width: 338px; !important; font-weight: bold;" for="recaptcha_response_field">Type the text:</label><label class="recaptcha_only_if_audio" for="recaptcha_response_field">Enter the numbers you hear:</label><input type="text" id="recaptcha_response_field" runat="server" clientidmode="Static" name="recaptcha_response_field" /></div><ul class="recaptcha_options"><li><a href="javascript:Recaptcha.reload()"><img id="recaptcha_reload" width="25" height="17" src="http://www.google.com/recaptcha/api/img/white/refresh.gif" alt="Get a new challenge"/><span class="captcha_hide">Get another CAPTCHA</span></a></li><li class="recaptcha_only_if_image"><a href="javascript:Recaptcha.switch_type(\'audio\')"><img id="Img1" width="25" height="17" alt="Get an audio challenge" src="http://www.google.com/recaptcha/api/img/white/audio.gif"></img><span class="captcha_hide"> Get an audio CAPTCHA</span></a></li><li class="recaptcha_only_if_audio"><a href="javascript:Recaptcha.switch_type(\'image\')"><img id="recaptcha_reload" width="25" height="17" src="http://www.google.com/recaptcha/api/img/white/text.gif" alt="Get a visual challenge"/><span class="captcha_hide"> Get an image CAPTCHA</span></a></li><li><a href="javascript:Recaptcha.showhelp()"><img id="recaptcha_whatsthis" width="25" height="17" src="http://www.google.com/recaptcha/api/img/white/help.gif" alt="Help"/><span class="captcha_hide"> Help</span></a></li></ul></div>',
+            html: '<div id="recaptcha_widget" style="display:none;" class="recaptcha_widget"> <div id="recaptcha_image"  style="margin-bottom: 5px;"></div> <div class="recaptcha_only_if_incorrect_sol" style="color:red">Incorrect. Please try again.</div> <div class="recaptcha_input"> <label class="recaptcha_only_if_image" style = "width: 338px; font-weight: bold;" for="recaptcha_response_field">Are you human? (Enter the above text):</label> <label class="recaptcha_only_if_audio" for="recaptcha_response_field">Enter the numbers you hear:</label> <input type="text" id="recaptcha_response_field" runat="server" clientidmode="Static" name="recaptcha_response_field" /> </div> <ul class="recaptcha_options"><li><a href="javascript:Recaptcha.reload()"> <img id="recaptcha_reload" width="25" height="17" src="//www.google.com/recaptcha/api/img/white/refresh.gif" alt="Get a new challenge"/> <span class="captcha_hide">Get another CAPTCHA</span></a></li> <li class="recaptcha_only_if_image"><a href="javascript:Recaptcha.switch_type(\'audio\')"> <img id="Img1" width="25" height="17" alt="Get an audio challenge" src="//www.google.com/recaptcha/api/img/white/audio.gif"></img> <span class="captcha_hide"> Get an audio CAPTCHA</span></a></li><li class="recaptcha_only_if_audio"><a href="javascript:Recaptcha.switch_type(\'image\')"> <img id="recaptcha_reload" width="25" height="17" src="//www.google.com/recaptcha/api/img/white/text.gif" alt="Get a visual challenge"/><span class="captcha_hide"> Get an image CAPTCHA</span></a></li><li><a href="javascript:Recaptcha.showhelp()"><img id="recaptcha_whatsthis" width="25" height="17" src="//www.google.com/recaptcha/api/img/white/help.gif" alt="Help"/><span class="captcha_hide"> Help</span></a></li></ul></div>', 
             display: "Captcha",
             rules: "required",
             placeholder:"Captcha"
@@ -433,14 +437,14 @@ LoginRadiusAIA = (function (lr, doc) {
     lraia.LoginFormSchema = [{
         type: "string",
         name: "emailid",
-        display: "Email",
+        display: "",
         rules: "required|valid_email",
         permission: "r",
         placeholder:"Email"
     }, {
         type: "password",
         name: "password",
-        display: "Password",
+        display: "",
         rules: "required",
         permission: "w",
         placeholder:"Password"
@@ -471,3 +475,4 @@ LoginRadiusAIA = (function (lr, doc) {
     }
     return lraia;
 })(LoginRadius_SocialLogin, document);
+
