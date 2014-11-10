@@ -4,7 +4,7 @@ Donate link: http://www.loginradius.com/
 Tags: Social share, Wordpress plugin, BuddyPress, bbpress, social sharing, multisite, LoginRadius, share post, sharing, share, single share, Social share Plug-in, Twitter tweet, Google plus share, Yahoo share, OpenID, Linkedin share, social media tools, free social sharing, post to social networks, social authentication, social api, social app, facebook share, google share, wordpress multisite, social plugins
 Requires at least: 2.5.0
 Tested up to: 4.0
-Stable tag: 2.5.1
+Stable tag: 2.6
 License: GPLv2 or later
 
 Let your users share via their accounts on popular social networks such as Facebook, Google, Twitter, LinkedIn, Vkontakte and over 50 more!
@@ -99,6 +99,11 @@ LoginRadius is a Canadian Startup that offers Social Infrastructure to websites 
 
 == Changelog ==
 
+= 2.6 =
+* Enhanced Debug Error Reporting
+* Quick & Easy Activation
+* Disable sharing fix per page/post
+
 = 2.5.1 =
 * Alignment fixes for vertical sharing
 * Styling fixes in social sharing widget
@@ -186,3 +191,8 @@ LoginRadius is a Canadian Startup that offers Social Infrastructure to websites 
 = 2.5.1 =
 * Alignment fixes for vertical sharing
 * Styling fixes in social sharing widget
+
+= 2.6 =
+* Enhanced Debug Error Reporting
+* Quick & Easy Activation
+* Disable sharing fix per page/post

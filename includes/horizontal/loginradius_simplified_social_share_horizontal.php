@@ -53,11 +53,16 @@ function loginradius_share_get_horizontal_sharing() {
 				$u = LoginRadius.user_settings;
 				$u.sharecounttype='url';
 				$u.isMobileFriendly = true;
-				$u.apikey = "<?php echo $loginradius_api_settings['LoginRadius_apikey']; ?>";
+				<?php if( isset($loginradius_api_settings['LoginRadius_apikey']) && $loginradius_api_settings['LoginRadius_apikey'] != "" && loginradius_share_verify_apikey() ) { ?>
+					$u.apikey = "<?php echo $loginradius_api_settings['LoginRadius_apikey']; ?>";
+				<?php } ?>
 				$i.size = "<?php echo $size; ?>"; 
 				$i.show( "lr_horizontal_share" );
 			});
 		</script>
+		<?php if( !isset($loginradius_api_settings['LoginRadius_apikey']) || $loginradius_api_settings['LoginRadius_apikey'] == "" || !loginradius_share_verify_apikey() ) {
+			loginradius_debug_error("DEBUG MSG: Please enter a valid API Key to enable site specific branding");
+		} ?>
 	<?php
 		} else { ?>
 		<script type="text/javascript">
@@ -67,12 +72,17 @@ function loginradius_share_get_horizontal_sharing() {
 				$u = LoginRadius.user_settings;
 				$i.countertype = "<?php echo $countertype ?>";
 				$u.isMobileFriendly = true;
-				$u.apikey = "<?php echo $loginradius_api_settings['LoginRadius_apikey']; ?>";
+				<?php if( isset($loginradius_api_settings['LoginRadius_apikey']) && $loginradius_api_settings['LoginRadius_apikey'] != "" && loginradius_share_verify_apikey() ) { ?>
+					$u.apikey = "<?php echo $loginradius_api_settings['LoginRadius_apikey']; ?>";
+				<?php } ?>
 				$i.isHorizontal = true;
 				$i.size = "<?php echo $size; ?>";
 				$i.show( "lr_horizontal_share" );
 			});
 		</script>
+		<?php if( !isset($loginradius_api_settings['LoginRadius_apikey']) || $loginradius_api_settings['LoginRadius_apikey'] == "" || !loginradius_share_verify_apikey() ) {
+			loginradius_debug_error("DEBUG MSG: Please enter a valid API Key to enable site specific branding");
+		} ?>
 	<?php }
 }
 add_action( 'wp_head', 'loginradius_share_get_horizontal_sharing' );
@@ -87,7 +97,14 @@ function loginradius_share_horizontal_content( $content ) {
 	$top = false;
 	$bottom = false;
 
-	if( isset($loginradius_share_settings['horizontal_enable']) && $loginradius_share_settings['horizontal_enable'] == '1' && loginradius_share_verify_apikey() ){
+	$lrMeta = get_post_meta( $post->ID, '_login_radius_meta', true );
+
+    // if sharing disabled on this page/post, return content unaltered.
+    if ( isset( $lrMeta['sharing'] ) && $lrMeta['sharing'] == 1 && ! is_front_page() ) {
+        return $content;
+    }
+
+	if( isset($loginradius_share_settings['horizontal_enable']) && $loginradius_share_settings['horizontal_enable'] == '1' ){
 
 			// Show on Pages.
 			if( is_page() && ! is_front_page() && ( isset($loginradius_share_settings['horizontal_position']['Pages']['Top'])  || isset($loginradius_share_settings['horizontal_position']['Pages']['Bottom']) ) ) {
@@ -152,7 +169,14 @@ function loginradius_share_horizontal_excerpt( $content ) {
 	$top = false;
 	$bottom = false;
 
-	if( isset( $loginradius_share_settings['horizontal_enable'] ) && $loginradius_share_settings['horizontal_enable'] == '1' && loginradius_share_verify_apikey() ) {
+	$lrMeta = get_post_meta( $post->ID, '_login_radius_meta', true );
+
+    // if sharing disabled on this page/post, return content unaltered.
+    if ( isset( $lrMeta['sharing'] ) && $lrMeta['sharing'] == 1 && ! is_front_page() ) {
+        return $content;
+    }
+
+	if( isset( $loginradius_share_settings['horizontal_enable'] ) && $loginradius_share_settings['horizontal_enable'] == '1' ) {
 		// Show on Excerpts.
 		if( current_filter() == 'get_the_excerpt' && ( isset( $loginradius_share_settings['horizontal_position']['Excerpts']['Top'] ) || isset( $loginradius_share_settings['horizontal_position']['Excerpts']['Bottom'] ) ) ) {
 			if( isset($loginradius_share_settings['horizontal_position']['Excerpts']['Top']) ) {

@@ -3,6 +3,16 @@
 // If this file is called directly, abort.
 defined( 'ABSPATH' ) or die();
 
+function loginradius_admin_init() {
+
+	// add a callback public function to save any data a user enters in
+	loginradius_meta_box_setup();
+
+	// add a callback public function to save any data a user enters in
+	add_action( 'save_post', 'loginradius_save_meta' );
+}
+add_action( 'admin_init', 'loginradius_admin_init' );
+
 /**
  * Verify Api Key From Database.
  */
@@ -15,6 +25,61 @@ function loginradius_share_verify_apikey() {
 	} else {
 		return false;
 	}
+}
+
+/*
+ * adding LoginRadius meta box on each page and post
+ */
+function loginradius_meta_box_setup() {
+	foreach ( array('post', 'page') as $type ) {
+		add_meta_box( 'login_radius_meta', 'LoginRadius', 'loginradius_meta_setup', $type );
+	}
+}
+
+/**
+ * Display  metabox information on page and post
+ */
+function loginradius_meta_setup() {
+	global $post;
+	$postType = $post->post_type;
+	$lrMeta = get_post_meta( $post->ID, '_login_radius_meta', true );
+	?>
+	<p>
+		<label for="login_radius_sharing">
+			<input type="checkbox" name="_login_radius_meta[sharing]" id="login_radius_sharing" value='1' <?php checked( '1', @$lrMeta['sharing'] ); ?> />
+			<?php _e( 'Disable Social Sharing on this ' . $postType, 'LoginRadius' ) ?>
+		</label>
+	</p>
+	<?php
+	// custom nonce for verification later
+	echo '<input type="hidden" name="login_radius_meta_nonce" value="' . wp_create_nonce( __FILE__ ) . '" />';
+}
+
+/**
+ * Save login radius meta fields.
+ */
+function loginradius_save_meta( $postId ) {
+	// make sure data came from our meta box
+	if ( !isset( $_POST['login_radius_meta_nonce'] ) || !wp_verify_nonce( $_POST['login_radius_meta_nonce'], __FILE__ ) ) {
+		return $postId;
+	}
+	// check user permissions
+	if ( $_POST['post_type'] == 'page' ) {
+		if ( !current_user_can( 'edit_page', $postId ) ) {
+			return $postId;
+		}
+	} else {
+		if ( !current_user_can( 'edit_post', $postId ) ) {
+			return $postId;
+		}
+	}
+	if ( isset( $_POST['_login_radius_meta'] ) ) {
+		$newData = $_POST['_login_radius_meta'];
+	} else {
+		$newData = 0;
+	}
+	update_post_meta( $postId, '_login_radius_meta', $newData );
+	return $postId;
 }
 
 /**
@@ -44,15 +109,18 @@ function loginradius_share_select_admin() {
 	$loginradius_api_settings = get_option( 'LoginRadius_API_settings' );
 	$loginradius_share_settings = get_option( 'LoginRadius_share_settings' );
 
-	if( !isset($loginradius_api_settings['LoginRadius_apikey']) || empty( $loginradius_api_settings['LoginRadius_apikey'] ) || loginradius_share_verify_apikey() == false){
-		if( has_action( 'admin_menu', 'create_loginradius_menu' ) ) {
-			loginradius_share_admin_options();
-		}else{
-			lr_render_aia();
-		}
-	}else{
-		loginradius_share_admin_options();
-	}
+	// Disabled in version 2.6 -- Leave Code
+	// if( !isset($loginradius_api_settings['LoginRadius_apikey']) || empty( $loginradius_api_settings['LoginRadius_apikey'] ) || loginradius_share_verify_apikey() == false){
+	// 	if( has_action( 'admin_menu', 'create_loginradius_menu' ) ) {
+	// 		loginradius_share_admin_options();
+	// 	}else{
+	// 		lr_render_aia();
+	// 	}
+	// }else{
+	// 	loginradius_share_admin_options();
+	// }
+
+	loginradius_share_admin_options();
 }
 
 /**
@@ -715,17 +783,17 @@ function loginradius_share_admin_options() {
 						<div class="lr-row">
 							<h3>
 								Your loginradius sharing API key
-								<span class="lr-tooltip tip-bottom" data-title="This is your unique API key for the LoginRadius sharing plugin">
+								<span class="lr-tooltip tip-bottom" data-title="This is your unique API key for the LoginRadius sharing plugin.">
 									<span class="dashicons dashicons-editor-help"></span>
 								</span>
 							</h3>
-							<input type="text" readonly="readonly" name="LoginRadius_API_settings[LoginRadius_apikey]" value="<?php echo $loginradius_api_settings['LoginRadius_apikey']; ?>" onclick="this.select()"/>
+							<input type="text" name="LoginRadius_API_settings[LoginRadius_apikey]" value="<?php echo $loginradius_api_settings['LoginRadius_apikey']; ?>" onclick="this.select()"/>
 						</div>
 						<?php } ?>
 						<div class="lr-row">
 							<h3>
 								Short Code for Sharing widget
-								<span class="lr-tooltip" data-title="Copy and paste the following shortcode into a page or post to display a horizontal sharing widget">
+								<span class="lr-tooltip tip-bottom" data-title="Copy and paste the following shortcode into a page or post to display a horizontal sharing widget">
 									<span class="dashicons dashicons-editor-help"></span>
 								</span>
 							</h3>

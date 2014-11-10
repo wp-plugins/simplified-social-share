@@ -142,7 +142,7 @@ add_action( 'admin_enqueue_scripts', 'loginradius_share_add_stylesheet' );
 function enqueue_loginradius_share_scripts() {
 	loginradius_share_add_stylesheet();
 	wp_enqueue_script( 'loginradius_javascript_init', plugins_url( '/assets/js/loginradius_sharing.js', __FILE__ ) );
-	wp_enqueue_script( 'lr_javascript', '//cdn.loginradius.com/share/v1/LoginRadius.js', array(), '2.5.1', false );
+	wp_enqueue_script( 'lr_javascript', '//cdn.loginradius.com/share/v1/LoginRadius.js', array(), '2.6', false );
 }
 add_action ( 'wp_enqueue_scripts', 'enqueue_loginradius_share_scripts' );
 
@@ -152,8 +152,8 @@ add_action ( 'wp_enqueue_scripts', 'enqueue_loginradius_share_scripts' );
 function register_loginradius_share_admin_menu() {
 
 	// Login and registration form javascript. Required in <head>.
-	wp_enqueue_script( 'loginradius_share_admin_reg_javascript', '//cdn.loginradius.com/hub/js/LoginRadius.1.0.js' , array(), '2.5.1', false );
-	wp_enqueue_script( 'loginradius_share_admin_aia_javascript', plugins_url( '/assets/js/loginradius-aia.js', __FILE__), array( 'jquery' ), '2.5.1', false );
+	wp_enqueue_script( 'loginradius_share_admin_reg_javascript', '//cdn.loginradius.com/hub/js/LoginRadius.1.0.js' , array(), '2.6', false );
+	wp_enqueue_script( 'loginradius_share_admin_aia_javascript', plugins_url( '/assets/js/loginradius-aia.js', __FILE__), array( 'jquery' ), '2.6', false );
 
 	if( ! has_action( 'admin_menu', 'create_loginradius_menu' ) ) {
 		// Create menu if menu has not been created.
@@ -179,7 +179,14 @@ add_action ( 'admin_init', 'register_loginradius_share_settings' );
  */
 function reset_loginradius_share_options() {
 	global $options;
-	
 	// Load reset options.
 	update_option( 'LoginRadius_share_settings', $options );
+}
+
+function loginradius_debug_error($msg) {
+	if(WP_DEBUG == true) {
+		error_log($msg);
+		echo '<p style="color:red;">' . $msg . '</p>';
+		return;
+	}
 }

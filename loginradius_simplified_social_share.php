@@ -3,7 +3,7 @@
  * Plugin Name: Simplified Social Share
  * Plugin URI: http://www.LoginRadius.com
  * Description: Add Social Sharing to your WordPress website.
- * Version: 2.5.1
+ * Version: 2.6
  * Author: LoginRadius Team
  * Author URI: http://www.LoginRadius.com
  * License: GPL2+

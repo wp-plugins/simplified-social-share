@@ -55,12 +55,17 @@ function loginradius_share_get_vertical_sharing( $top, $right, $bottom, $left, $
 				$i.left = '<?php echo $left; ?>';
 				$SS.Providers.Top = ["<?php echo implode('","', $loginradius_share_settings['vertical_rearrange_providers']); ?>"];
 				$u = LoginRadius.user_settings;
-				$u.apikey = "<?php echo $loginradius_api_settings['LoginRadius_apikey']; ?>";
+				<?php if( isset($loginradius_api_settings['LoginRadius_apikey']) && $loginradius_api_settings['LoginRadius_apikey'] != "" && loginradius_share_verify_apikey() ) { ?>
+					$u.apikey = "<?php echo $loginradius_api_settings['LoginRadius_apikey']; ?>";
+				<?php } ?>
 				$i.size = "<?php echo $size; ?>";
 				$u.isMobileFriendly=true; 
 				$i.show( "<?php echo $div_class; ?>" );
 			});
 		</script>
+		<?php if( !isset($loginradius_api_settings['LoginRadius_apikey']) || $loginradius_api_settings['LoginRadius_apikey'] == "" || !loginradius_share_verify_apikey() ) {
+			loginradius_debug_error("DEBUG MSG: Please enter a valid API Key to enable site specific branding");
+		} ?>
 	<?php
 		} else { ?>
 		<script type="text/javascript">
@@ -74,12 +79,17 @@ function loginradius_share_get_vertical_sharing( $top, $right, $bottom, $left, $
 				$u = LoginRadius.user_settings;
 				$i.countertype = "<?php echo $countertype ?>";
 				$u.isMobileFriendly = true;
-				$u.apikey = "<?php echo $loginradius_api_settings['LoginRadius_apikey']; ?>";
+				<?php if( isset($loginradius_api_settings['LoginRadius_apikey']) && $loginradius_api_settings['LoginRadius_apikey'] != "" && loginradius_share_verify_apikey() ) { ?>
+					$u.apikey = "<?php echo $loginradius_api_settings['LoginRadius_apikey']; ?>";
+				<?php } ?>
 				$i.isHorizontal = false;
 				$i.size = "<?php echo $size; ?>";
 				$i.show( "<?php echo $div_class; ?>" );
 			});
 		</script>
+		<?php if( !isset($loginradius_api_settings['LoginRadius_apikey']) || $loginradius_api_settings['LoginRadius_apikey'] == "" || !loginradius_share_verify_apikey() ) {
+			loginradius_debug_error("DEBUG MSG: Please enter a valid API Key to enable site specific branding");
+		} ?>
 	<?php }
 	return ob_get_clean();
 }
@@ -88,14 +98,21 @@ function loginradius_share_get_vertical_sharing( $top, $right, $bottom, $left, $
  * Output Sharing for the content.
  */
 function loginradius_share_vertical_content( $content ) {
-	global $loginradius_share_settings;
+	global $post, $loginradius_share_settings;
 
 	$top_left = false;
 	$top_right = false;
 	$bottom_left = false;
 	$bottom_right = false;
 
-	if( isset($loginradius_share_settings['vertical_enable']) && $loginradius_share_settings['vertical_enable'] == '1' && loginradius_share_verify_apikey() ){
+	$lrMeta = get_post_meta( $post->ID, '_login_radius_meta', true );
+
+	// if sharing disabled on this page/post, return content unaltered.
+	if ( isset( $lrMeta['sharing'] ) && $lrMeta['sharing'] == 1 && ! is_front_page() ) {
+		return $content;
+	}
+
+	if( isset($loginradius_share_settings['vertical_enable']) && $loginradius_share_settings['vertical_enable'] == '1'){
 
 		// Show on Pages.
 		if( is_page() && ! is_front_page() && ( isset($loginradius_share_settings['vertical_position']['Pages']['Top Left']) || isset($loginradius_share_settings['vertical_position']['Pages']['Top Right']) || isset($loginradius_share_settings['vertical_position']['Pages']['Bottom Left']) || isset($loginradius_share_settings['vertical_position']['Pages']['Bottom Right']) ) ) {
@@ -156,14 +173,21 @@ add_filter( 'the_content', 'loginradius_share_vertical_content' );
  * Output Sharing for the Front Page Posts content.
  */
 function loginradius_share_vertical_front_page_posts( $content ) {
-	global $loginradius_share_settings;
+	global $post, $loginradius_share_settings;
 	$return = "";
 	$top_left = false;
 	$top_right = false;
 	$bottom_left = false;
 	$bottom_right = false;
 
-	if( isset($loginradius_share_settings['vertical_enable']) && $loginradius_share_settings['vertical_enable'] == '1' && loginradius_share_verify_apikey() ){
+	$lrMeta = get_post_meta( $post->ID, '_login_radius_meta', true );
+
+	// if sharing disabled on this page/post, return content unaltered.
+	if ( isset( $lrMeta['sharing'] ) && $lrMeta['sharing'] == 1 && ! is_front_page() ) {
+		return $content;
+	}
+
+	if( isset($loginradius_share_settings['vertical_enable']) && $loginradius_share_settings['vertical_enable'] == '1' ){
 		
 		// Show on Front Page.
 		if( is_front_page() && is_home() && ( isset($loginradius_share_settings['vertical_position']['Home']['Top Left']) || isset($loginradius_share_settings['vertical_position']['Home']['Top Right']) || isset($loginradius_share_settings['vertical_position']['Home']['Bottom Left']) || isset($loginradius_share_settings['vertical_position']['Home']['Bottom Right']) ) ) {
