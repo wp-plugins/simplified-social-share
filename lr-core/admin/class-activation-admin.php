@@ -49,7 +49,7 @@ if ( !class_exists( 'LR_Activation_Admin' ) ) {
 						'LoginRadius_apikey'        => '',
 						'LoginRadius_secret'        => '',
 						'scripts_in_footer'         => '1',
-						'delete_options'	    => '1',
+						'delete_options'	        => '0',
 						'sitename'                  => ''
 				);
 				update_option( 'LoginRadius_API_settings', $api_options );

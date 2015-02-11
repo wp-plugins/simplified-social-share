@@ -91,13 +91,6 @@ class LR_Sharing_Install {
 			)
 	);
 
-	private $api_options = array(
-			'LoginRadius_apikey'		=> '',
-			'LoginRadius_secret'		=> '',
-			'scripts_in_footer'			=> '1',
-			'sitename'                  => ''
-	);
-
 	/**
 	 * Constructor
 	 */
@@ -121,36 +114,8 @@ class LR_Sharing_Install {
 			update_option( 'LoginRadius_share_settings', self::$options );
 		}
 
-		if( ! get_option( 'LoginRadius_API_settings' ) ) {
-			// Get Existing API key for update.
-			if( get_option( 'LoginRadius_settings' ) ) {
-				$loginradius_existing_settings = get_option( 'LoginRadius_settings' );
-				if( isset($loginradius_existing_settings['LoginRadius_apikey'] ) && ! empty( $loginradius_existing_settings['LoginRadius_apikey'] ) ) {
-					$api_options['LoginRadius_apikey'] = $loginradius_existing_settings['LoginRadius_apikey'];
-				}
-			}
-
-			if( get_option( 'LoginRadius_sharing_settings' ) ) {
-				$loginradius_existing_settings = get_option( 'LoginRadius_sharing_settings' );
-				if( isset( $loginradius_existing_settings['LoginRadius_apikey'] ) && ! empty( $loginradius_existing_settings['LoginRadius_apikey'] ) ) {
-					$api_options['LoginRadius_apikey'] = $loginradius_existing_settings['LoginRadius_apikey'];
-					
-				}
-			}
-			update_option( 'LoginRadius_API_settings', $api_options );
-		}
-
 		// Get LoginRadius plugin settings.
 		$loginradius_share_settings = get_option( 'LoginRadius_share_settings' );
-
-		// Get LoginRadius plugin settings.
-		$loginradius_api_settings = get_option( 'LoginRadius_API_settings' );
-
-		// Set share in footer to true if set.
-		if( isset( $loginradius_share_settings['js_footer_enable'] ) && $loginradius_share_settings['js_footer_enable'] == '1' ) {
-			global $lr_js_in_footer;
-			$lr_js_in_footer = true;
-		}
 	}
 
 	/**
@@ -179,7 +144,6 @@ class LR_Sharing_Install {
 	 */
 	public function register_share_settings() {
 		register_setting( 'loginradius_share_settings', 'LoginRadius_share_settings' );
-		register_setting( 'loginradius_api_settings', 'LoginRadius_API_settings' );
 	}
 	
 	/**

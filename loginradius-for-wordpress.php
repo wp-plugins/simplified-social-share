@@ -3,7 +3,7 @@
  * Plugin Name: Simplified Social Sharing
  * Plugin URI: http://www.loginradius.com
  * Description: Simplified Social Sharing
- * Version: 2.7
+ * Version: 2.7.1
  * Author: LoginRadius Team
  * Author URI: http://www.loginradius.com
  * License: GPL2+
@@ -30,12 +30,10 @@ if ( file_exists( plugin_dir_path( __FILE__ ) . 'lr-social-sharing/lr-social-sha
  * so people can go straight from the plugin page to the settings page.
  */
 function loginradius_login_setting_links( $links, $file ) {
-
 	static $thisPlugin = '';
 	if ( empty( $thisPlugin ) ) {
 		$thisPlugin = plugin_basename( __FILE__ );
 	}
-
 	if ( $file == $thisPlugin ) {
 		
 		if( ! class_exists('LR_Social_Login') || ! class_exists('LR_Raas') ) {

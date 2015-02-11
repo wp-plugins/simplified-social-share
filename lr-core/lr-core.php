@@ -47,13 +47,6 @@ if ( ! class_exists( 'LR_Core' ) ) {
 			// Get object for LoginRadius SDK.
 			$loginRadiusObject = new LoginRadius();
 
-			/**
-			 * Advanced Functions
-			 *
-			 * Used for MailChimp, Pardot Others
-			 */
-			require_once("includes/helpers/class-advanced-functions.php");
-
 			// Activation settings class.
 			require_once( LR_CORE_DIR . 'admin/class-activation-admin.php' );
 			require_once( LR_CORE_DIR . 'admin/views/class-activation-settings-view.php' );

@@ -72,11 +72,16 @@ if ( ! class_exists( 'LR_Social_Share_Admin' ) ) {
 			global $post;
 			$postType = $post->post_type;
 			$lrMeta = get_post_meta( $post->ID, '_login_radius_meta', true );
-			$lrMeta['sharing'] = isset( $lrMeta['sharing'] ) ? $lrMeta['sharing'] : '';
+			if( is_array($lrMeta) ) {
+				$meta['sharing'] = isset( $lrMeta['sharing'] ) ? $lrMeta['sharing'] : '';
+			}else {
+				$meta['sharing'] = isset( $lrMeta ) && $lrMeta == '1' || $lrMeta == '0' ? $lrMeta : '';
+			}
+			
 			?>
 			<p>
 				<label for="login_radius_sharing">
-					<input type="checkbox" name="_login_radius_meta[sharing]" id="login_radius_sharing" value='1' <?php checked( '1', $lrMeta['sharing'] ); ?> />
+					<input type="checkbox" name="_login_radius_meta[sharing]" id="login_radius_sharing" value='1' <?php checked( '1', $meta['sharing'] ); ?> />
 					<?php _e( 'Disable Social Sharing on this ' . $postType, 'LoginRadius' ) ?>
 				</label>
 			</p>
