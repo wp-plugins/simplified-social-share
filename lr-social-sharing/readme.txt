@@ -1,37 +1,34 @@
-﻿=== Simplified Social Sharing ===
+=== Simplified Social Sharing ===
 Contributors: loginradius
 Donate link: http://www.loginradius.com/
 Tags: Social share, Wordpress plugin, BuddyPress, bbpress, social sharing, multisite, LoginRadius, share post, sharing, share, single share, Social share Plug-in, Twitter tweet, Google plus share, Yahoo share, OpenID, Linkedin share, social media tools, free social sharing, post to social networks, social authentication, social api, social app, facebook share, google share, wordpress multisite, social plugins
-Requires at least: 3.4
-Tested up to: 4.2.2
-Stable tag: 2.8
+Requires at least: 2.5.0
+Tested up to: 4.0
+Stable tag: 4.0
 License: GPLv2 or later
 
 Let your users share via their accounts on popular social networks such as Facebook, Google, Twitter, LinkedIn, Vkontakte and over 50 more!
 
 == Description ==
+Just install this free plugin to enable Social Sharing on your WordPress site. This plugin is also compatible with WordPress multisite.
 
-Install this free plugin to enable Social Sharing on your WordPress site and start driving high quality referrals to your website. This plugin is also compatible with WordPress multisite.
+See the <a href="http://wordpress.org/plugins/simplified-social-share/screenshots/">screenshot section</a> for visuals on social sharing features.
 
-82% of users consider buying or trying products and services based on their friends’ recommendations. With social share, you give users the tools to share your content, product details and other information with their own networks.
-
-More than 22 billion shares are viewed each and every day on the internet, with sharing becoming an increasingly important part of every website owner's marketing strategies.
+= Social Sharing = Let users share your web contents on over 50 social networks resulting into drastic increase in referral traffic.
 
 = Plugin Live Demo =
-
-* Wordpress: http://demo.loginradius.com/view/#users/sharing
+* Wordpress: http://blog.loginradius.com
 
 = Step-by-step installation documents =
-
 * <a href="http://support.loginradius.com/hc/en-us/articles/201994523-Wordpress-Social-Sharing-instructions" target="_blank">WordPress Social Sharing installation and configuration</a>
 
-= Features =
-
+= Basic Features =
+* compatible with Buddypress and bbPress
+* Choose social sharing themes design
+* Enable Social Sharing widget on your WordPress site
 * Options to add social sharing widget on homepage, posts, feeds, content pages, etc.
-* Compatible with Buddypress and bbPress
-* Choose from many social sharing themes design
-* Users can share content on over 50 social networks, can send content via email or can print
-* A clean, user friendly WP admin U/I with tab structure with various options for social sharing
+* Users can share contents on over 50 social networks, can send contents in an email or can print!
+* A nice clean user friendly WP admin U/I with tab structure with various options for social sharing
 * Manage everything from your WP admin
 * No programming skills required
 * Its simple, secure and reliable
@@ -39,16 +36,15 @@ More than 22 billion shares are viewed each and every day on the internet, with 
 * 24/7 community support, rich knowledge base, and active discussion forum
 
 = Other Social plugins =
-
 LoginRadius also provides social plugins for Joomla, Drupal, Magento, PrestaShop, Vanilla Forum, osCommerce, Zen Cart, X-cart, vBulletin, BlogEngine and DotNetNuke! <a href="http://www.loginradius.com/developers#cms-plugins" target="_blank">Learn more</a>.
 
 = Important links =
 
 * LoginRadius website: http://www.loginradius.com
-* Product information: http://www.loginradius.com/social-sharing/
 * Live demo: http://demo.loginradius.com/
 * Blog: http://blog.loginradius.com
 * Our video: http://www.youtube.com/loginradius
+* Press/Media page: http://www.loginradius.com/company#press
 
 Please share your comments and feedback at feedback@loginradius.com
 
@@ -102,27 +98,6 @@ LoginRadius is a Canadian Startup that offers Social Infrastructure to websites 
 3. **Social Sharing Vertical Theme**: Choose social sharing vertical themes
 
 == Changelog ==
-= 2.8 =
-* Improved functionality and optimization
-* Improved Theme compatibility
-
-= 2.7.1 =
-* Fixed multisite bug
-* Improved post/page sharing features
-
-= 2.7 =
-* Performance improvements
-* Improved Activation process
-* Updated style sheet and resposive theme
-
-= 2.6 =
-* Enhanced Debug Error Reporting
-* Quick & Easy Activation
-* Disable sharing fix per page/post
-
-= 2.5.1 =
-* Alignment fixes for vertical sharing
-* Styling fixes in social sharing widget
 
 = 2.5 =
 * Responsive sharing widgets
@@ -203,25 +178,3 @@ LoginRadius is a Canadian Startup that offers Social Infrastructure to websites 
 * Enhanced Admin user interface
 * Improved performance of the sharing interface
 * Compatible with Wordpress 4.0
-
-= 2.5.1 =
-* Alignment fixes for vertical sharing
-* Styling fixes in social sharing widget
-
-= 2.6 =
-* Enhanced Debug Error Reporting
-* Quick & Easy Activation
-* Disable sharing fix per page/post
-
-= 2.7 =
-* Performance improvements
-* Improved Activation process
-* Updated style sheet and resposive theme
-
-= 2.7.1 =
-* Fixed multisite bug
-* Improved post/page sharing features
-
-= 2.8 =
-* Improved functionality and optimization
-* Improved Theme compatibility

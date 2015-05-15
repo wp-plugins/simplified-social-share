@@ -1,224 +1,140 @@
 <?php
-
 // If this file is called directly, abort.
-defined( 'ABSPATH' ) or die();
+defined('ABSPATH') or die();
 
 /**
- * Get LoginRadius Vertical Simple Social Sharing div and script.
+ * The horizontal sharing class.
  */
-function loginradius_share_get_vertical_sharing( $top, $right, $bottom, $left, $style ) {
-	global $loginradius_share_settings, $loginradius_api_settings;
-	$div_class = uniqid( 'lr_' );
-	$hybrid = false;
-	$theme = $loginradius_share_settings['vertical_share_interface'];
+if (!class_exists('LR_Vertical_Sharing')) {
 
-	if( $top == '' && $right == '' && $bottom == '' && $left == '' ) {
-		$div_class .= " lr_ver_share_widget";
-		$style = 'style="position: relative !important;' . $style . '"';
-	}
-	switch ( $theme ) {
-		case '32-v':
-			$size = '32';
-			break;
-		case '16-v':
-			$size = '16';
-			break;
-		case 'hybrid-v-h':
-			$hybrid = true;
-			$size = '32';
-            $countertype = "horizontal";
-			break;
-		case 'hybrid-v-v':
-			$hybrid = true;
-			$size = '32';
-            $countertype = "vertical";
-			break;
-		default:
-			$size = '32';
-			$top = 'top';
-			$left = 'left';
-			break;
-	}
+    class LR_Vertical_Sharing {
 
-	ob_start();
-	?>
-		<div class="<?php echo $div_class; ?>" <?php echo $style; ?> ></div>
-	<?php
-		if( $hybrid == false ) {
-	?>
-		<script type="text/javascript">
-			LoginRadius.util.ready(function () {
-				$i = $SS.Interface.Simplefloat; 
-				$i.top = '<?php echo $top; ?>';
-				$i.right = '<?php echo $right; ?>';
-				$i.bottom = '<?php echo $bottom; ?>';
-				$i.left = '<?php echo $left; ?>';
-				$SS.Providers.Top = ["<?php echo implode('","', $loginradius_share_settings['vertical_rearrange_providers']); ?>"];
-				$u = LoginRadius.user_settings;
-				<?php if( isset( $loginradius_api_settings['LoginRadius_apikey'] ) && !empty( $loginradius_api_settings['LoginRadius_apikey'] ) ) { ?>
-					$u.apikey = "<?php echo $loginradius_api_settings['LoginRadius_apikey']; ?>";
-				<?php } ?>
-				$i.size = "<?php echo $size; ?>";
-				$u.isMobileFriendly = <?php echo ( isset( $loginradius_share_settings['mobile_enable'] ) && $loginradius_share_settings['mobile_enable'] == '1' ) ? 'true' : 'false'; ?>; 
-				$i.show( "<?php echo $div_class; ?>" );
-			});
-		</script>
-	<?php
-		} else { ?>
-		<script type="text/javascript">
-			LoginRadius.util.ready( function() {
-				$i = $SC.Interface.simple;
-				$i.top = '<?php echo $top; ?>';
-				$i.right = '<?php echo $right; ?>';
-				$i.bottom = '<?php echo $bottom; ?>';
-				$i.left = '<?php echo $left; ?>';
-				$SC.Providers.Selected = ["<?php echo implode('","', $loginradius_share_settings['vertical_sharing_providers']['Hybrid']); ?>"];
-				$u = LoginRadius.user_settings;
-				$i.countertype = "<?php echo $countertype ?>";
-				$u.isMobileFriendly = <?php echo ( isset( $loginradius_share_settings['mobile_enable'] ) && $loginradius_share_settings['mobile_enable'] == '1' ) ? 'true' : 'false'; ?>;
-				<?php if( isset( $loginradius_api_settings['LoginRadius_apikey'] ) && !empty( $loginradius_api_settings['LoginRadius_apikey'] ) ) { ?>
-					$u.apikey = "<?php echo $loginradius_api_settings['LoginRadius_apikey']; ?>";
-				<?php } ?>
-				$i.isHorizontal = false;
-				$i.size = "<?php echo $size; ?>";
-				$i.show( "<?php echo $div_class; ?>" );
-			});
-		</script>
-	<?php }
-	return ob_get_clean();
+        static $params;
+        static $position;
+
+        /**
+         * Constructor
+         * 
+         * @global type $lr_js_in_footer
+         */
+        public function __construct() {
+            global $lr_js_in_footer;
+            // Enqueue main scripts in footer
+            if ($lr_js_in_footer) {
+                add_action('wp_footer', array($this, 'vertical_page_content'), 1);
+            } else {
+                add_action('wp_enqueue_scripts', array($this, 'vertical_page_content'), 2);
+            }
+        }
+
+        /**
+         * Get LoginRadius Vertical div container.
+         * 
+         * @param type $class
+         * @param type $style
+         * @return type
+         */
+        static function get_vertical_sharing($class, $style = '') {
+            return '<div class="lr-share-vertical-fix ' . $class . '" ' . $style . '></div>';
+        }
+
+        /**
+         * 
+         * @global type $loginradius_share_settings
+         * @param type $page
+         * @param type $position
+         * @return boolean
+         */
+        private static function get_vertical_position_option($page, $position) {
+            global $loginradius_share_settings;
+            if ( isset($loginradius_share_settings['vertical_position'][$page]['Top Left']) && $loginradius_share_settings['vertical_position'][$page]['Top Left'] == 'Top Left' ) {
+                $position['top_left'] = true;
+            }
+            if ( isset($loginradius_share_settings['vertical_position'][$page]['Top Right']) && $loginradius_share_settings['vertical_position'][$page]['Top Right'] == 'Top Right' ) {
+                $position['top_right'] = true;
+            }
+            if ( isset($loginradius_share_settings['vertical_position'][$page]['Bottom Left']) && $loginradius_share_settings['vertical_position'][$page]['Bottom Left'] == 'Bottom Left' ) {
+                $position['bottom_left'] = true;
+            }
+            if ( isset($loginradius_share_settings['vertical_position'][$page]['Bottom Right']) && $loginradius_share_settings['vertical_position'][$page]['Bottom Right'] == 'Bottom Right' ) {
+                $position['bottom_right'] = true;
+            }
+            
+            return $position;
+        }
+
+        /**
+         * 
+         * @global type $loginradius_share_settings
+         * @return type
+         */
+        public static function get_vertical_position() {
+            global $loginradius_share_settings;
+
+                $position['top_left'] = false;
+                $position['top_right'] = false;
+                $position['bottom_left'] = false;
+                $position['bottom_right'] = false;
+            	// Show on static Pages.
+                if ( is_page() && !is_front_page() && ( isset($loginradius_share_settings['lr-clicker-vr-static']) && $loginradius_share_settings['lr-clicker-vr-static'] == '1' )) {
+                	$position = self::get_vertical_position_option('Static', $position);
+                }
+    	        // Show on Front home Page.
+    	        if ( is_front_page() && ( isset($loginradius_share_settings['lr-clicker-vr-home']) && $loginradius_share_settings['lr-clicker-vr-home'] == '1' )) {
+    	        	$position = self::get_vertical_position_option('Home', $position);
+    	     	}
+                // Show on Posts.
+                if ( is_single() && ( isset($loginradius_share_settings['lr-clicker-vr-post']) && $loginradius_share_settings['lr-clicker-vr-post'] == '1' ) ) {
+                    $position = self::get_vertical_position_option('Post', $position);
+                }
+                return $position;
+        }
+
+        /**
+         * Output Sharing for the content.
+         * 
+         * @global type $post
+         * @param type $content
+         * @return type
+         */
+        function vertical_page_content($content) {
+            global $post;
+            if (is_object($post)) {
+                $lrMeta = get_post_meta($post->ID, '_login_radius_meta', true);
+
+                // if sharing disabled on this page/post, return content unaltered.
+                if (isset($lrMeta['sharing']) && $lrMeta['sharing'] == 1 && !is_front_page()) {
+                    return $content;
+                }
+            }
+            LR_Common_Sharing::vertical_sharing();
+            $position = self::get_vertical_position();
+
+            if ($position['top_left']) {
+                $class = uniqid('lr_');
+                self::$params['top_left']['class'] = $class;
+                $content .= self::get_vertical_sharing($class);
+            }
+            if ($position['top_right']) {
+                $class = uniqid('lr_');
+                self::$params['top_right']['class'] = $class;
+                $content .= self::get_vertical_sharing($class);
+            }
+            if ($position['bottom_left']) {
+                $class = uniqid('lr_');
+                self::$params['bottom_left']['class'] = $class;
+                $content .= self::get_vertical_sharing($class);
+            }
+            if ($position['bottom_right']) {
+                $class = uniqid('lr_');
+                self::$params['bottom_right']['class'] = $class;
+                $content .= self::get_vertical_sharing($class);
+            }
+
+            echo $content;
+        }
+
+    }
+
+    new LR_Vertical_Sharing();
 }
-
-/**
- * Output Sharing for the content.
- */
-function loginradius_share_vertical_content( $content ) {
-	global $post, $loginradius_share_settings;
-
-	$top_left = false;
-	$top_right = false;
-	$bottom_left = false;
-	$bottom_right = false;
-
-	if( is_object( $post ) ) {
-		$lrMeta = get_post_meta( $post->ID, '_login_radius_meta', true );
-
-		// if sharing disabled on this page/post, return content unaltered.
-		if ( isset( $lrMeta['sharing'] ) && $lrMeta['sharing'] == 1 && ! is_front_page() ) {
-			return $content;
-		}
-	}
-
-	if( isset($loginradius_share_settings['vertical_enable']) && $loginradius_share_settings['vertical_enable'] == '1' ){
-
-		// Show on Pages.
-		if( is_page() && ! is_front_page() && ( isset($loginradius_share_settings['vertical_position']['Pages']['Top Left']) || isset($loginradius_share_settings['vertical_position']['Pages']['Top Right']) || isset($loginradius_share_settings['vertical_position']['Pages']['Bottom Left']) || isset($loginradius_share_settings['vertical_position']['Pages']['Bottom Right']) ) ) {
-			if( isset($loginradius_share_settings['vertical_position']['Pages']['Top Left']) )
-				$top_left = true;
-			if( isset($loginradius_share_settings['vertical_position']['Pages']['Top Right']) )
-				$top_right = true;
-			if( isset($loginradius_share_settings['vertical_position']['Pages']['Bottom Left']) )
-				$bottom_left = true;
-			if( isset($loginradius_share_settings['vertical_position']['Pages']['Bottom Right']) )
-				$bottom_right = true;
-		}
-
-		// Show on Front Static Page.
-		if( is_front_page() && ! is_home() && ( isset($loginradius_share_settings['vertical_position']['Home']['Top Left']) || isset($loginradius_share_settings['vertical_position']['Home']['Top Right']) || isset($loginradius_share_settings['vertical_position']['Home']['Bottom Left']) || isset($loginradius_share_settings['vertical_position']['Home']['Bottom Right']) ) ) {
-			if( isset($loginradius_share_settings['vertical_position']['Home']['Top Left']) )
-				$top_left = true;
-			if( isset($loginradius_share_settings['vertical_position']['Home']['Top Right']) )
-				$top_right = true;
-			if( isset($loginradius_share_settings['vertical_position']['Home']['Bottom Left']) )
-				$bottom_left = true;
-			if( isset($loginradius_share_settings['vertical_position']['Home']['Bottom Right']) )
-				$bottom_right = true;
-		}
-
-		// Show on Posts.
-		if( is_single() && ( isset($loginradius_share_settings['vertical_position']['Posts']['Top Left']) || isset($loginradius_share_settings['vertical_position']['Posts']['Top Right']) || isset($loginradius_share_settings['vertical_position']['Posts']['Bottom Left']) || isset($loginradius_share_settings['vertical_position']['Posts']['Bottom Right']) ) ) {
-			if( isset($loginradius_share_settings['vertical_position']['Posts']['Top Left']) )
-				$top_left = true;
-			if( isset($loginradius_share_settings['vertical_position']['Posts']['Top Right']) )
-				$top_right = true;
-			if( isset($loginradius_share_settings['vertical_position']['Posts']['Bottom Left']) )
-				$bottom_left = true;
-			if( isset($loginradius_share_settings['vertical_position']['Posts']['Bottom Right']) )
-				$bottom_right = true;
-		}
-	}
-
-	$return = $content;
-	if( $top_left ){
-		$return  .= loginradius_share_get_vertical_sharing( '0px', '', '', '0px', '' );
-	}
-	if( $top_right ){
-		$return  .= loginradius_share_get_vertical_sharing( '0px', '0px', '', '', '' );
-	}
-	if( $bottom_left ){
-		$return  .= loginradius_share_get_vertical_sharing( '', '', '0px', '0px', '' );
-	}
-	if( $bottom_right ){
-		$return  .= loginradius_share_get_vertical_sharing( '', '0px', '0px', '', '' );
-	}
-	
-	return $return;
-}
-add_filter( 'the_content', 'loginradius_share_vertical_content' );
-
-/**
- * Output Sharing for the Front Page Posts content.
- */
-function loginradius_share_vertical_front_page_posts( $content ) {
-	global $post, $loginradius_share_settings;
-	$return = "";
-	$top_left = false;
-	$top_right = false;
-	$bottom_left = false;
-	$bottom_right = false;
-
-	if( is_object( $post ) ) {
-		$lrMeta = get_post_meta( $post->ID, '_login_radius_meta', true );
-
-		// if sharing disabled on this page/post, return content unaltered.
-		if ( isset( $lrMeta['sharing'] ) && $lrMeta['sharing'] == 1 && ! is_front_page() ) {
-			return $content;
-		}
-	}
-	
-	if( isset($loginradius_share_settings['vertical_enable']) && $loginradius_share_settings['vertical_enable'] == '1' ){
-		
-		// Show on Front Page.
-		if( is_front_page() && is_home() && ( isset($loginradius_share_settings['vertical_position']['Home']['Top Left']) || isset($loginradius_share_settings['vertical_position']['Home']['Top Right']) || isset($loginradius_share_settings['vertical_position']['Home']['Bottom Left']) || isset($loginradius_share_settings['vertical_position']['Home']['Bottom Right']) ) ) {
-			if( isset($loginradius_share_settings['vertical_position']['Home']['Top Left']) )
-				$top_left = true;
-			if( isset($loginradius_share_settings['vertical_position']['Home']['Top Right']) )
-				$top_right = true;
-			if( isset($loginradius_share_settings['vertical_position']['Home']['Bottom Left']) )
-				$bottom_left = true;
-			if( isset($loginradius_share_settings['vertical_position']['Home']['Bottom Right']) )
-				$bottom_right = true;
-		}
-	}
-
-	//$return = $content;
-	if( $top_left ){
-		$return .= loginradius_share_get_vertical_sharing( '0px', '', '', '0px', '' );
-	}
-	if( $top_right ){
-		$return .= loginradius_share_get_vertical_sharing( '0px', '0px', '', '', '' );
-	}
-	if( $bottom_left ){
-		$return .= loginradius_share_get_vertical_sharing( '', '', '0px', '0px', '' );
-	}
-	if( $bottom_right ){
-		$return .= loginradius_share_get_vertical_sharing( '', '0px', '0px', '', '' );
-	}
-
-	echo $return;
-}
-add_filter( 'wp_head', 'loginradius_share_vertical_front_page_posts' );
-
-
-
-
-

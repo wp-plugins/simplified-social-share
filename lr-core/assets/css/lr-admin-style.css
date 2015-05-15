@@ -88,6 +88,13 @@ body[class*="loginradius"] #wpwrap #wpcontent, body[class*="LoginRadius"] #wpwra
 	left: 0;
 	right: 0;
 }
+/*===============
+	Tabs
+================*/
+
+h2.nav-tab-wrapper, h3.nav-tab-wrapper {
+  padding-left: 0px;
+}
 
 /*============================
 Inputs
@@ -167,6 +174,7 @@ Inputs
 	overflow: auto;
 	line-height: 30px;
 	min-height: 112px;
+	resize: none;
 }
 
 .lr-wrap textarea.small {
@@ -270,6 +278,10 @@ Inputs
 	transition: border 0.15s ease;
 }
 
+.wrap.lr-wrap input[type="radio"]:checked + span {
+	font-weight: 700;
+}
+
 .wrap.lr-wrap input[type="radio"]:checked:before {
 	content: none;
 }
@@ -299,6 +311,12 @@ Inputs
 	box-sizing:border-box;
 
 	border-bottom: 1px solid #f2f2f2;
+}
+
+.lr-row .lr-row {
+	padding: 10px 0 20px 30px;
+	border: 0;
+	border-left: 3px dotted #eee;
 }
 
 #lr_horizontal_switch.lr-row, #lr_vertical_switch.lr-row {
@@ -334,7 +352,6 @@ Inputs
 	line-height: 1.5em;
 	font-weight: 300;
 	margin: 0;
-	margin-bottom: 30px;
 }
 .lr-wrap h5 {
 	font-size: 1.125em;
@@ -371,13 +388,7 @@ label .lr-text:before {
 	clear: both;
 	margin: 30px 0;
 	padding: 0;
-}
-
-.lr-advance p.submit {
-	clear: both;
-	margin: 0;
-	padding: 0;
-	text-align: center;
+	text-align: right;
 }
 
 .lr-wrap p.submit input[type="submit"], .lr-wrap input[name="reset"] {
@@ -397,10 +408,12 @@ label .lr-text:before {
 #lr_options_tab-3 {position: relative;}
 
 .lr-reset {
-	position: absolute;
 	bottom: 15px;
 	right: 60px;
 	z-index: 1;
+}
+.lr-reset-body{
+      padding: 16px 4px 40px 40px;
 }
 
 .lr-wrap input[name="reset"] {
@@ -549,6 +562,36 @@ textarea.lr-shortcode {
 	vertical-align: middle;
 	font-size: 25px;
 	color: #2299dd;
+	line-height: 44px;
+}
+
+/*==================
+        Warning box
+====================*/
+.lr-warning-box {
+	border: 1px solid #9F6000;
+	padding: 10px 15px;
+	border-radius: 5px;
+	background: #FEEFB3;
+	padding-left: 40px;
+	font-size: 14px;
+	position: relative;
+}
+
+.lr-warning-box:empty {
+	display: none;
+}
+
+.lr-warning-box:before {
+	content: "\f153";
+	font-family: dashicons;
+	position: absolute;
+	left: 7px;
+	top: 0;
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 25px;
+	color: #9F6000;
 	line-height: 44px;
 }
 
@@ -813,21 +856,54 @@ input.lr-toggle:checked + .lr-toggle-name:after, input.lr-toggle:checked + label
 		top: auto;
 	}
 
-	.lr-submit.lr-advance {
-		padding-left: 30px;
-		padding-right: 30px;
-	}
 	.lr-reset {
 		right: 30px;
 	}
 }
 
 @media only screen and (max-width: 500px) {
-	.lr-submit.lr-advance {
-		padding-bottom: 90px;
-	}
 	.lr-reset {
 		right: auto;
 		left: 30px;
 	}
+}
+
+/*Color Picker*/
+.lr-color-picker-container {
+	padding-left: 280px;
+}
+
+.wp-color-result:focus {
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+}
+
+.wp-picker-container .wp-color-result {
+	border: 1px solid rgb(238, 238, 238);
+	border-radius: 0px 10px;
+	height: 35px;
+	margin-bottom:0;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+}
+
+.wp-picker-container .wp-color-result:after {
+	line-height: 35px;
+	width: 80px;
+	text-align: center;
+}
+.wp-picker-input-wrap, .wp-picker-input-wrap input {
+	display: inline-block !important;
+}
+
+.wp-picker-input-wrap .button.button-small {
+	border: 1px solid #eee;
+	border-radius: 0 10px;
+	height: 38px !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+}
+
+.wp-picker-container input[type=text].wp-color-picker {
+	width: 120px !important;	
 }
